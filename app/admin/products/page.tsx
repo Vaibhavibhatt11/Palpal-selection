@@ -1,9 +1,10 @@
 import Link from "next/link";
+import type { Product } from "@prisma/client";
 import { prisma } from "../../../lib/db";
 import { formatCurrency, withTimeout } from "../../../lib/utils";
 
 export default async function AdminProductsPage() {
-  let products = [];
+  let products: Product[] = [];
   try {
     products = await withTimeout(
       prisma.product.findMany({
