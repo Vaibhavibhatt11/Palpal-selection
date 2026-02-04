@@ -31,15 +31,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
       }
     | null = null;
   try {
-    product = await withTimeout(
-      prisma.product.findUnique({
-        where: { slug: params.slug }
-      }),
-      null,
-      8000
-    );
+    product = await prisma.product.findUnique({
+      where: { slug: params.slug }
+    });
   } catch {
-    // DB unavailable
+    product = null;
   }
   if (!product) {
     return (
