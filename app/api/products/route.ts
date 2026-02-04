@@ -37,17 +37,17 @@ export async function POST(req: Request) {
   const slug = await generateUniqueSlug(data.name);
 
   try {
-    const product = await prisma.product.create({
-      data: {
-        name: data.name,
-        slug,
-        price: data.price,
-        description: data.description,
-        category: data.category || null,
-        inStock: data.inStock,
-        images: data.images
-      }
-    });
+  const product = await prisma.product.create({
+    data: {
+      name: data.name,
+      slug,
+      price: data.price,
+      description: data.description || "",
+      category: data.category || null,
+      inStock: data.inStock,
+      images: data.images
+    }
+  });
 
     return NextResponse.json(product);
   } catch (error: any) {

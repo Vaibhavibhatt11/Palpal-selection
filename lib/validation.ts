@@ -10,7 +10,7 @@ const imagePathSchema = z
 export const productSchema = z.object({
   name: z.string().min(2).max(120),
   price: z.coerce.number().positive().max(1_000_000),
-  description: z.string().min(10).max(2000),
+  description: z.string().max(2000).optional().or(z.literal("")),
   category: z.string().max(80).optional().or(z.literal("")),
   inStock: z.coerce.boolean().default(true),
   images: z.array(imagePathSchema).min(1)

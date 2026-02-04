@@ -33,7 +33,7 @@ export async function PUT(req: Request, context: ParamsContext) {
       data: {
         name: data.name,
         price: data.price,
-        description: data.description,
+        description: data.description || "",
         category: data.category || null,
         inStock: data.inStock,
         images: data.images

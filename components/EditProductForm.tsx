@@ -102,7 +102,6 @@ export default function EditProductForm({ id, initial }: ProductFormProps) {
           defaultValue={initial.description}
           placeholder="Description"
           className="w-full rounded-xl border border-pink-200 px-3 py-3 min-h-[140px]"
-          required
         />
       </div>
       <div className="space-y-2">

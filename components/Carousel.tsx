@@ -26,7 +26,7 @@ export default function Carousel({ items }: CarouselProps) {
   useEffect(() => {
     let frame: number;
     let last = performance.now();
-    const speed = 120; // px per second
+    const speed = 220; // px per second
 
     const tick = (now: number) => {
       const container = containerRef.current;
