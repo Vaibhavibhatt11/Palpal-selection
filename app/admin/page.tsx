@@ -2,11 +2,12 @@ import Link from "next/link";
 import { prisma } from "../../lib/db";
 import { todayString, withTimeout } from "../../lib/utils";
 import { subDays, format } from "date-fns";
+import type { DailyVisit } from "@prisma/client";
 
 export default async function AdminDashboardPage() {
   const today = todayString();
   const startDate = format(subDays(new Date(), 6), "yyyy-MM-dd");
-  let dailyVisits = [];
+  let dailyVisits: DailyVisit[] = [];
   try {
     dailyVisits = await withTimeout(
       prisma.dailyVisit.findMany({
