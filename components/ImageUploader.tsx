@@ -16,23 +16,25 @@ export default function ImageUploader({ value, onChange }: ImageUploaderProps) {
     if (!files || files.length === 0) return;
     setUploading(true);
     setError("");
-    const uploaded: string[] = [];
-    for (const file of Array.from(files)) {
-      const formData = new FormData();
-      formData.append("file", file);
-      const res = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-        credentials: "same-origin"
-      });
-      if (!res.ok) {
-        const payload = await res.json().catch(() => null);
-        setError(payload?.error || "Image upload failed. Please try again.");
-        continue;
-      }
-      const data = (await res.json()) as { url: string };
-      uploaded.push(data.url);
-    }
+    const results = await Promise.all(
+      Array.from(files).map(async (file) => {
+        const formData = new FormData();
+        formData.append("file", file);
+        const res = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+          credentials: "same-origin"
+        });
+        if (!res.ok) {
+          const payload = await res.json().catch(() => null);
+          setError(payload?.error || "Image upload failed. Please try again.");
+          return null;
+        }
+        const data = (await res.json()) as { url: string };
+        return data.url;
+      })
+    );
+    const uploaded = results.filter((url): url is string => Boolean(url));
     onChange([...value, ...uploaded]);
     setUploading(false);
   };

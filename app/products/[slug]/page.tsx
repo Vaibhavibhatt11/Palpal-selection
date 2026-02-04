@@ -35,7 +35,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
       prisma.product.findUnique({
         where: { slug: params.slug }
       }),
-      null
+      null,
+      8000
     );
   } catch {
     // DB unavailable
@@ -46,7 +47,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         <div className="rounded-3xl bg-white p-6 border border-pink-100 shadow-soft">
           <h1 className="text-2xl font-bold">Product unavailable</h1>
           <p className="text-neutral-600 mt-2">
-            This product is temporarily unavailable. Please try again soon.
+            We could not load this product right now. Please refresh and try again.
           </p>
         </div>
       </div>

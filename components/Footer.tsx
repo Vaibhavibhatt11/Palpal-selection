@@ -30,7 +30,9 @@ export default async function Footer() {
       <div className="border-t border-pink-100">
         <div className="container-shell py-4 text-xs text-neutral-500 flex flex-wrap items-center justify-between gap-2">
           <span>{"\u00A9 2026 All rights reserved."}</span>
-          <span>{settings.shopName}</span>
+          <span>
+            Developed by Vaibhavi Bhatt · Contact: 9909949320
+          </span>
         </div>
       </div>
     </footer>
