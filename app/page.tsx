@@ -153,9 +153,6 @@ export default async function HomePage() {
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between mb-5">
             <div>
               <h2 className="text-2xl font-semibold">New Arrivals</h2>
-              <p className="text-sm text-neutral-500">
-                Smooth carousel, drag to explore the latest drops.
-              </p>
             </div>
             {products[0] && (
               <span className="text-sm text-neutral-500">
