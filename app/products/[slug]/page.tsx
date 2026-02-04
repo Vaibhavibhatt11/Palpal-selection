@@ -41,10 +41,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
     return (
       <div className="mx-auto max-w-3xl px-4 py-12">
         <div className="rounded-3xl bg-white p-6 border border-pink-100 shadow-soft">
-          <h1 className="text-2xl font-bold">Product details coming soon</h1>
+          <h1 className="text-2xl font-bold">More details on WhatsApp</h1>
           <p className="text-neutral-600 mt-2">
-            This item was just added and details are being updated. Please check back
-            soon or message us on WhatsApp for quick information.
+            For more details kindly contact on WhatsApp. We will share sizes,
+            colors, and availability quickly.
           </p>
         </div>
       </div>
