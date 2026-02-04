@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { formatCurrency } from "../lib/utils";
+import { buildWhatsappLink } from "../lib/whatsapp";
 
 type CarouselItem = {
   id: string;
@@ -17,11 +18,14 @@ type CarouselItem = {
 
 type CarouselProps = {
   items: CarouselItem[];
+  whatsappNumber: string;
+  baseUrl: string;
 };
 
-export default function Carousel({ items }: CarouselProps) {
+export default function Carousel({ items, whatsappNumber, baseUrl }: CarouselProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [paused, setPaused] = useState(false);
+  const [active, setActive] = useState<CarouselItem | null>(null);
 
   useEffect(() => {
     let frame: number;
@@ -84,7 +88,11 @@ export default function Carousel({ items }: CarouselProps) {
                 transition={{ duration: 0.4 }}
                 className="min-w-[240px] bg-white rounded-3xl shadow-soft border border-pink-100 overflow-hidden hover:-translate-y-1 transition-transform"
               >
-                <Link href={`/products/${item.slug}`}>
+                <button
+                  type="button"
+                  onClick={() => setActive(item)}
+                  className="w-full text-left"
+                >
                   <div className="relative h-36">
                     <Image
                       src={item.image}
@@ -107,12 +115,65 @@ export default function Carousel({ items }: CarouselProps) {
                       {formatCurrency(item.price)}
                     </p>
                   </div>
-                </Link>
+                </button>
               </motion.div>
             ))}
       </div>
       <div className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-[#fff3f8] to-transparent" />
       <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-[#fff3f8] to-transparent" />
+
+      {active && (
+        <div
+          className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4"
+          onClick={() => setActive(null)}
+        >
+          <div
+            className="relative w-full max-w-xl rounded-3xl bg-white p-4 shadow-xl"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={() => setActive(null)}
+              className="absolute right-3 top-3 rounded-full bg-black/80 text-white px-4 py-2 text-sm font-semibold"
+            >
+              Close
+            </button>
+            <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-white">
+              <Image
+                src={active.image}
+                alt={active.name}
+                fill
+                className="object-contain p-2"
+              />
+            </div>
+            <div className="mt-4 space-y-2">
+              <p className="text-lg font-semibold">{active.name}</p>
+              <p className="text-sm text-neutral-500">
+                {formatCurrency(active.price)}
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <Link
+                  href={`/products/${active.slug}`}
+                  className="rounded-full border border-brand-200 px-4 py-2 text-sm font-semibold text-brand-700"
+                >
+                  View Details
+                </Link>
+                <a
+                  href={buildWhatsappLink(
+                    whatsappNumber,
+                    active.name,
+                    formatCurrency(active.price),
+                    `${baseUrl}/products/${active.slug}`
+                  )}
+                  className="rounded-full bg-brand-600 text-white px-4 py-2 text-sm font-semibold"
+                >
+                  Order on WhatsApp
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

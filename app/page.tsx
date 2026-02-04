@@ -41,6 +41,7 @@ export default async function HomePage() {
     image: product.images[0],
     isNew: isNewArrival(product.createdAt)
   }));
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
   return (
     <div className="space-y-12">
@@ -160,7 +161,11 @@ export default async function HomePage() {
               </span>
             )}
           </div>
-          <Carousel items={arrivals} />
+          <Carousel
+            items={arrivals}
+            whatsappNumber={settings.whatsappNumber}
+            baseUrl={baseUrl}
+          />
         </div>
       </section>
 
