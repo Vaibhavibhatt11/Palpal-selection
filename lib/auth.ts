@@ -48,8 +48,9 @@ async function registerSuccess(email: string, ip: string) {
 }
 
 export const authOptions: NextAuthOptions = {
-  session: { strategy: "jwt", maxAge: 60 * 60 * 8 },
-  jwt: { maxAge: 60 * 60 * 8 },
+  // Keep admins signed in on mobile devices longer to avoid frequent logins.
+  session: { strategy: "jwt", maxAge: 60 * 60 * 24 * 30, updateAge: 60 * 60 * 24 },
+  jwt: { maxAge: 60 * 60 * 24 * 30 },
   providers: [
     CredentialsProvider({
       name: "Credentials",
