@@ -4,6 +4,10 @@ import { todayString, withTimeout } from "../../lib/utils";
 import { subDays, format } from "date-fns";
 import type { DailyVisit } from "@prisma/client";
 
+// Prisma must run on Node.js in production, and this page should not be prerendered at build time.
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
 export default async function AdminDashboardPage() {
   const today = todayString();
   const startDate = format(subDays(new Date(), 6), "yyyy-MM-dd");

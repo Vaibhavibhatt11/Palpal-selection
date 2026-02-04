@@ -21,7 +21,9 @@ export default function AdminLoginForm() {
       callbackUrl
     });
     if (!res?.ok) {
-      setError("Invalid credentials or rate limit exceeded.");
+      setError(
+        "Login failed. Check admin email/password and database connection."
+      );
       return;
     }
     window.location.href = callbackUrl;

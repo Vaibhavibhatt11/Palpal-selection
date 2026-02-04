@@ -30,14 +30,11 @@ export async function POST(req: Request) {
       }
     });
   } catch (error: any) {
-    return NextResponse.json(
-      {
-        error:
-          error?.message ||
-          "Unable to save follower. Run migrations if needed."
-      },
-      { status: 500 }
-    );
+    const message =
+      error?.code === "P1001" || error?.code === "P1000"
+        ? "Database is temporarily unavailable. Please try again shortly."
+        : "We could not save your follow right now. Please try again in a minute.";
+    return NextResponse.json({ error: message }, { status: 503 });
   }
 
   return NextResponse.json({ ok: true });

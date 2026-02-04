@@ -1,5 +1,8 @@
 import { getSettings } from "../../lib/settings";
 
+// Prisma-backed settings should run on Node.js and avoid build-time execution.
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 export const revalidate = 60;
 
 export default async function AboutPage() {

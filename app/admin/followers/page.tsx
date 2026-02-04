@@ -1,6 +1,10 @@
 import { prisma } from "../../../lib/db";
 import { withTimeout } from "../../../lib/utils";
 
+// Prisma must run on Node.js in production, and this page should not be prerendered at build time.
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
 export default async function AdminFollowersPage() {
   let followers: Array<{
     id: string;

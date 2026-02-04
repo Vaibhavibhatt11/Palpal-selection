@@ -7,6 +7,9 @@ import { getSettings } from "../../../lib/settings";
 import ProductViewTracker from "../../../components/ProductViewTracker";
 import ProductCard from "../../../components/ProductCard";
 
+// Prisma must run on Node.js in production, and this page should not be prerendered at build time.
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 export const revalidate = 60;
 
 type ProductPageProps = {

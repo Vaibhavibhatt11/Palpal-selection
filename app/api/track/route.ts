@@ -15,22 +15,27 @@ export async function POST(req: Request) {
   const date = todayString();
   const hash = crypto.createHash("sha256").update(`${ip}-${ua}-${date}`).digest("hex");
 
-  await prisma.dailyVisit.upsert({
-    where: { date },
-    update: { totalVisits: { increment: 1 } },
-    create: { date, totalVisits: 1, uniqueVisits: 0 }
-  });
-
-  const fingerprint = await prisma.visitFingerprint.findUnique({
-    where: { date_hash: { date, hash } }
-  });
-
-  if (!fingerprint) {
-    await prisma.visitFingerprint.create({ data: { date, hash } });
-    await prisma.dailyVisit.update({
+  try {
+    await prisma.dailyVisit.upsert({
       where: { date },
-      data: { uniqueVisits: { increment: 1 } }
+      update: { totalVisits: { increment: 1 } },
+      create: { date, totalVisits: 1, uniqueVisits: 0 }
     });
+
+    const fingerprint = await prisma.visitFingerprint.findUnique({
+      where: { date_hash: { date, hash } }
+    });
+
+    if (!fingerprint) {
+      await prisma.visitFingerprint.create({ data: { date, hash } });
+      await prisma.dailyVisit.update({
+        where: { date },
+        data: { uniqueVisits: { increment: 1 } }
+      });
+    }
+  } catch {
+    // Ignore tracking failures in production to avoid breaking UX.
+    return NextResponse.json({ ok: false }, { status: 200 });
   }
 
   return NextResponse.json({ ok: true });

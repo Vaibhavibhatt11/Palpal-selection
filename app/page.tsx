@@ -7,6 +7,9 @@ import { prisma } from "../lib/db";
 import { getSettings } from "../lib/settings";
 import { formatCurrency, isNewArrival, withTimeout } from "../lib/utils";
 
+// Prisma must run on Node.js in production, and this page should not be prerendered at build time.
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 export const revalidate = 60;
 
 export default async function HomePage() {

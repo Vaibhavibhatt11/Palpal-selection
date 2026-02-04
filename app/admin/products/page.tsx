@@ -3,6 +3,10 @@ import type { Product } from "@prisma/client";
 import { prisma } from "../../../lib/db";
 import { formatCurrency, withTimeout } from "../../../lib/utils";
 
+// Prisma must run on Node.js in production, and this page should not be prerendered at build time.
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
 export default async function AdminProductsPage() {
   let products: Product[] = [];
   try {

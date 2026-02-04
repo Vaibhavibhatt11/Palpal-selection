@@ -4,6 +4,9 @@ import { productSchema } from "../../../lib/validation";
 import { generateUniqueSlug } from "../../../lib/slug";
 import { requireAdmin } from "../../../lib/apiAuth";
 
+// Prisma must run on Node.js in production.
+export const runtime = "nodejs";
+
 export async function GET() {
   const products = await prisma.product.findMany({
     orderBy: { createdAt: "desc" }

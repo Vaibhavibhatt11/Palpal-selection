@@ -74,17 +74,36 @@ export const authOptions: NextAuthOptions = {
           req?.headers?.["x-real-ip"]?.toString() ||
           "unknown";
 
-        const rate = await checkRateLimit(email, ip);
-        if (!rate.allowed) {
+        try {
+          const rate = await checkRateLimit(email, ip);
+          if (!rate.allowed) {
+            return null;
+          }
+        } catch {
+          // If DB is unreachable, fail closed.
           return null;
         }
 
-        const user = await prisma.adminUser.findUnique({
+        let user = await prisma.adminUser.findUnique({
           where: { email }
         });
         if (!user) {
-          await registerFailedAttempt(email, ip);
-          return null;
+          const envEmail = process.env.ADMIN_EMAIL?.toLowerCase().trim();
+          const envPassword = process.env.ADMIN_PASSWORD;
+          if (envEmail && envPassword && envEmail === email) {
+            const passwordHash = await bcrypt.hash(envPassword, 10);
+            try {
+              user = await prisma.adminUser.create({
+                data: { email, passwordHash }
+              });
+            } catch {
+              await registerFailedAttempt(email, ip);
+              return null;
+            }
+          } else {
+            await registerFailedAttempt(email, ip);
+            return null;
+          }
         }
 
         const valid = await bcrypt.compare(password, user.passwordHash);

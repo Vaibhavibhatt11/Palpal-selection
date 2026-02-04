@@ -3,6 +3,9 @@ import { prisma } from "../../../lib/db";
 import { settingsSchema } from "../../../lib/validation";
 import { requireAdmin } from "../../../lib/apiAuth";
 
+// Prisma must run on Node.js in production.
+export const runtime = "nodejs";
+
 export async function PUT(req: Request) {
   const isAdmin = await requireAdmin(req);
   if (!isAdmin) {

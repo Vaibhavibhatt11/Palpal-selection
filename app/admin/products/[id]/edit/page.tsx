@@ -2,6 +2,10 @@ import { notFound } from "next/navigation";
 import { prisma } from "../../../../../lib/db";
 import EditProductForm from "../../../../../components/EditProductForm";
 
+// Prisma must run on Node.js in production, and this page should not be prerendered at build time.
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
 type EditPageProps = {
   params: { id: string } | Promise<{ id: string }>;
 };

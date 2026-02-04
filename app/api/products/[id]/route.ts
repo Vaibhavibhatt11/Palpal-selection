@@ -3,6 +3,9 @@ import { prisma } from "../../../../lib/db";
 import { productSchema } from "../../../../lib/validation";
 import { requireAdmin } from "../../../../lib/apiAuth";
 
+// Prisma must run on Node.js in production.
+export const runtime = "nodejs";
+
 type ParamsContext = { params: Promise<{ id: string }> };
 
 export async function PUT(req: Request, context: ParamsContext) {
