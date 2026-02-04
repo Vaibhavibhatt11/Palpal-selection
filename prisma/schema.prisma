@@ -1,0 +1,73 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+}
+
+
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  price       Decimal  @db.Decimal(10, 2)
+  description String
+  category    String?
+  images      String[]
+  inStock     Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  viewsCount  Int      @default(0)
+}
+
+model ShopSettings {
+  id               Int    @id @default(1)
+  shopName         String
+  whatsappNumber   String
+  address          String
+  hours            String
+  deliveryText     String
+  announcementText String?
+}
+
+model DailyVisit {
+  id           String @id @default(cuid())
+  date         String @unique
+  totalVisits  Int    @default(0)
+  uniqueVisits Int    @default(0)
+}
+
+model VisitFingerprint {
+  id   String @id @default(cuid())
+  date String
+  hash String
+
+  @@unique([date, hash])
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
+
+model LoginAttempt {
+  id          String   @id @default(cuid())
+  email       String
+  ip          String
+  count       Int      @default(0)
+  lastAttempt DateTime @default(now())
+
+  @@unique([email, ip])
+}
+
+model Follower {
+  id        String   @id @default(cuid())
+  name      String
+  whatsapp  String   @unique
+  email     String?
+  createdAt DateTime @default(now())
+}

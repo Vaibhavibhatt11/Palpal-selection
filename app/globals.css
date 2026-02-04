@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  @apply bg-[#fff3f8] text-neutral-900;
+  font-family: var(--font-body), system-ui, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-heading), system-ui, sans-serif;
+}
+
+.hero-grid {
+  background-image:
+    radial-gradient(circle at top left, rgba(255, 77, 156, 0.22), transparent 40%),
+    radial-gradient(circle at 20% 80%, rgba(255, 159, 203, 0.35), transparent 40%),
+    linear-gradient(135deg, #fff1f7, #fff6fb);
+}
+
+.section-wave {
+  background-image: linear-gradient(120deg, rgba(255, 77, 156, 0.08), rgba(255, 199, 229, 0.5));
+}
+
+@layer components {
+  .container-shell {
+    @apply mx-auto max-w-7xl px-4;
+  }
+  .btn-primary {
+    @apply rounded-full bg-brand-600 text-white px-6 py-3 text-sm font-semibold shadow-soft hover:bg-brand-700 transition;
+  }
+  .btn-secondary {
+    @apply rounded-full border border-brand-200 text-brand-700 px-6 py-3 text-sm font-semibold hover:bg-brand-50 transition;
+  }
+  .card-soft {
+    @apply rounded-3xl bg-white border border-pink-100 shadow-soft;
+  }
+  .badge-soft {
+    @apply inline-flex items-center rounded-full bg-brand-50 text-brand-700 px-3 py-1 text-xs font-semibold;
+  }
+}
+
+.fade-edges {
+  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
