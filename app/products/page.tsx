@@ -49,11 +49,14 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
               ? {
                   OR: [
                     { name: { contains: query, mode: "insensitive" } },
-                    { description: { contains: query, mode: "insensitive" } }
+                    { description: { contains: query, mode: "insensitive" } },
+                    { category: { contains: query, mode: "insensitive" } }
                   ]
                 }
               : {},
-            category ? { category } : {}
+            category
+              ? { category: { equals: category, mode: "insensitive" } }
+              : {}
           ]
         },
         orderBy
