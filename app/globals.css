@@ -127,3 +127,39 @@ h4 {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+.carousel-track {
+  animation: carousel-marquee 8s linear infinite;
+  will-change: transform;
+}
+
+.carousel-shell:hover .carousel-track {
+  animation-play-state: paused;
+}
+
+@media (min-width: 640px) {
+  .carousel-track {
+    animation-duration: 13s;
+  }
+}
+
+@media (min-width: 1024px) {
+  .carousel-track {
+    animation-duration: 18s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carousel-track {
+    animation: none;
+  }
+}
+
+@keyframes carousel-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(calc(-50% - 0.5rem), 0, 0);
+  }
+}

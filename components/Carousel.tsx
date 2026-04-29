@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -23,79 +23,18 @@ type CarouselProps = {
 };
 
 export default function Carousel({ items, whatsappNumber, baseUrl }: CarouselProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const speedRef = useRef(380);
-  const [paused, setPaused] = useState(false);
   const [active, setActive] = useState<CarouselItem | null>(null);
-
-  useEffect(() => {
-    let frame: number;
-    let last = performance.now();
-
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-
-    const updateSpeed = () => {
-      if (prefersReducedMotion) {
-        speedRef.current = 0;
-        return;
-      }
-      if (window.innerWidth < 640) {
-        speedRef.current = 660;
-        return;
-      }
-      if (window.innerWidth < 1024) {
-        speedRef.current = 500;
-        return;
-      }
-      speedRef.current = 380;
-    };
-
-    updateSpeed();
-    window.addEventListener("resize", updateSpeed);
-
-    const tick = (now: number) => {
-      const container = containerRef.current;
-      const delta = now - last;
-      last = now;
-      if (container && !paused && items.length > 0) {
-        const speed = speedRef.current;
-        container.scrollLeft += (speed * delta) / 1000;
-        if (container.scrollLeft >= container.scrollWidth / 2) {
-          container.scrollLeft = 0;
-        }
-      }
-      frame = requestAnimationFrame(tick);
-    };
-
-    frame = requestAnimationFrame(tick);
-    return () => {
-      cancelAnimationFrame(frame);
-      window.removeEventListener("resize", updateSpeed);
-    };
-  }, [paused, items.length]);
 
   const showSkeleton = items.length === 0;
 
   const doubled = [...items, ...items];
 
   return (
-    <div
-      className="relative"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onTouchStart={() => setPaused(true)}
-      onTouchEnd={() => setPaused(false)}
-      onPointerDown={() => setPaused(true)}
-      onPointerUp={() => setPaused(false)}
-    >
-      <div
-        ref={containerRef}
-        className="fade-edges flex gap-4 overflow-x-auto scroll-smooth scrollbar-hide py-2"
-      >
-        {showSkeleton
-          ? Array.from({ length: 6 }).map((_, idx) => (
+    <div className="carousel-shell relative">
+      <div className="fade-edges overflow-hidden py-2">
+        <div className="carousel-track flex w-max gap-4">
+          {showSkeleton
+            ? Array.from({ length: 8 }).map((_, idx) => (
               <div
                 key={`skeleton-${idx}`}
                 className="min-w-[240px] animate-pulse overflow-hidden rounded-3xl border border-white/70 bg-white/70 shadow-soft dark:border-white/10 dark:bg-white/10"
@@ -107,7 +46,7 @@ export default function Carousel({ items, whatsappNumber, baseUrl }: CarouselPro
                 </div>
               </div>
             ))
-          : doubled.map((item, idx) => (
+            : doubled.map((item, idx) => (
               <motion.div
                 key={`${item.id}-${idx}`}
                 initial={{ opacity: 0, y: 10 }}
@@ -145,6 +84,7 @@ export default function Carousel({ items, whatsappNumber, baseUrl }: CarouselPro
                 </button>
               </motion.div>
             ))}
+        </div>
       </div>
       <div className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-[var(--page-bg)] to-transparent" />
       <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-[var(--page-bg)] to-transparent" />
