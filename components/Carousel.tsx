@@ -24,19 +24,43 @@ type CarouselProps = {
 
 export default function Carousel({ items, whatsappNumber, baseUrl }: CarouselProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const speedRef = useRef(380);
   const [paused, setPaused] = useState(false);
   const [active, setActive] = useState<CarouselItem | null>(null);
 
   useEffect(() => {
     let frame: number;
     let last = performance.now();
-    const speed = 320; // px per second
+
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    const updateSpeed = () => {
+      if (prefersReducedMotion) {
+        speedRef.current = 0;
+        return;
+      }
+      if (window.innerWidth < 640) {
+        speedRef.current = 660;
+        return;
+      }
+      if (window.innerWidth < 1024) {
+        speedRef.current = 500;
+        return;
+      }
+      speedRef.current = 380;
+    };
+
+    updateSpeed();
+    window.addEventListener("resize", updateSpeed);
 
     const tick = (now: number) => {
       const container = containerRef.current;
       const delta = now - last;
       last = now;
       if (container && !paused && items.length > 0) {
+        const speed = speedRef.current;
         container.scrollLeft += (speed * delta) / 1000;
         if (container.scrollLeft >= container.scrollWidth / 2) {
           container.scrollLeft = 0;
@@ -46,7 +70,10 @@ export default function Carousel({ items, whatsappNumber, baseUrl }: CarouselPro
     };
 
     frame = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frame);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("resize", updateSpeed);
+    };
   }, [paused, items.length]);
 
   const showSkeleton = items.length === 0;
@@ -85,7 +112,7 @@ export default function Carousel({ items, whatsappNumber, baseUrl }: CarouselPro
                 key={`${item.id}-${idx}`}
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4 }}
+                transition={{ duration: 0.25 }}
                 className="min-w-[250px] overflow-hidden rounded-3xl border border-white/70 bg-white/75 shadow-soft backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:border-brand-200/70 dark:border-white/10 dark:bg-white/10"
               >
                 <button
