@@ -71,12 +71,12 @@ export default function Carousel({ items, whatsappNumber, baseUrl }: CarouselPro
           ? Array.from({ length: 6 }).map((_, idx) => (
               <div
                 key={`skeleton-${idx}`}
-                className="min-w-[240px] rounded-3xl bg-white border border-pink-100 shadow-soft overflow-hidden animate-pulse"
+                className="min-w-[240px] animate-pulse overflow-hidden rounded-3xl border border-white/70 bg-white/70 shadow-soft dark:border-white/10 dark:bg-white/10"
               >
-                <div className="h-36 bg-pink-100/60" />
+                <div className="h-40 bg-pink-100/60 dark:bg-white/10" />
                 <div className="p-4 space-y-2">
-                  <div className="h-4 bg-pink-100/60 rounded-full" />
-                  <div className="h-3 bg-pink-100/60 rounded-full w-1/2" />
+                  <div className="h-4 rounded-full bg-pink-100/60 dark:bg-white/10" />
+                  <div className="h-3 w-1/2 rounded-full bg-pink-100/60 dark:bg-white/10" />
                 </div>
               </div>
             ))
@@ -86,32 +86,32 @@ export default function Carousel({ items, whatsappNumber, baseUrl }: CarouselPro
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4 }}
-                className="min-w-[240px] bg-white rounded-3xl shadow-soft border border-pink-100 overflow-hidden hover:-translate-y-1 transition-transform"
+                className="min-w-[250px] overflow-hidden rounded-3xl border border-white/70 bg-white/75 shadow-soft backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:border-brand-200/70 dark:border-white/10 dark:bg-white/10"
               >
                 <button
                   type="button"
                   onClick={() => setActive(item)}
                   className="w-full text-left"
                 >
-                  <div className="relative h-36">
+                  <div className="relative h-44">
                     <Image
                       src={item.image}
                       alt={item.name}
                       fill
-                      className="object-cover"
+                      className="object-cover transition duration-500 hover:scale-105"
                       sizes="240px"
                     />
                     {item.isNew && (
-                      <span className="absolute left-3 top-3 rounded-full bg-brand-600 text-white text-xs px-2.5 py-1">
+                      <span className="absolute left-3 top-3 rounded-full bg-brand-600 px-2.5 py-1 text-xs font-bold text-white shadow-soft">
                         New
                       </span>
                     )}
                   </div>
                   <div className="p-4">
-                    <p className="text-sm font-semibold text-neutral-900">
+                    <p className="text-sm font-bold text-neutral-950 dark:text-white">
                       {item.name}
                     </p>
-                    <p className="text-xs text-neutral-500">
+                    <p className="text-xs font-semibold text-brand-700 dark:text-brand-200">
                       {formatCurrency(item.price)}
                     </p>
                   </div>
@@ -119,26 +119,26 @@ export default function Carousel({ items, whatsappNumber, baseUrl }: CarouselPro
               </motion.div>
             ))}
       </div>
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-[#fff3f8] to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-[#fff3f8] to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-[var(--page-bg)] to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-[var(--page-bg)] to-transparent" />
 
       {active && (
         <div
-          className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm"
           onClick={() => setActive(null)}
         >
           <div
-            className="relative w-full max-w-xl rounded-3xl bg-white p-4 shadow-xl"
+            className="card-soft relative w-full max-w-xl p-4"
             onClick={(event) => event.stopPropagation()}
           >
             <button
               type="button"
               onClick={() => setActive(null)}
-              className="absolute right-3 top-3 rounded-full bg-black/80 text-white px-4 py-2 text-sm font-semibold"
+              className="absolute right-3 top-3 z-10 rounded-full bg-black/80 px-4 py-2 text-sm font-bold text-white"
             >
               Close
             </button>
-            <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-white">
+            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-white dark:bg-neutral-950">
               <Image
                 src={active.image}
                 alt={active.name}
@@ -147,14 +147,14 @@ export default function Carousel({ items, whatsappNumber, baseUrl }: CarouselPro
               />
             </div>
             <div className="mt-4 space-y-2">
-              <p className="text-lg font-semibold">{active.name}</p>
-              <p className="text-sm text-neutral-500">
+              <p className="text-lg font-bold text-neutral-950 dark:text-white">{active.name}</p>
+              <p className="text-sm font-semibold text-brand-700 dark:text-brand-200">
                 {formatCurrency(active.price)}
               </p>
               <div className="flex flex-wrap gap-2">
                 <Link
                   href={`/products/${active.slug}`}
-                  className="rounded-full border border-brand-200 px-4 py-2 text-sm font-semibold text-brand-700"
+                  className="btn-secondary px-4 py-2"
                 >
                   View Details
                 </Link>
@@ -165,7 +165,7 @@ export default function Carousel({ items, whatsappNumber, baseUrl }: CarouselPro
                     formatCurrency(active.price),
                     `${baseUrl}/products/${active.slug}`
                   )}
-                  className="rounded-full bg-brand-600 text-white px-4 py-2 text-sm font-semibold"
+                  className="btn-primary px-4 py-2"
                 >
                   Order on WhatsApp
                 </a>

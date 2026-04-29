@@ -6,6 +6,7 @@ import { buildWhatsappLink } from "../../../lib/whatsapp";
 import { getSettings } from "../../../lib/settings";
 import ProductViewTracker from "../../../components/ProductViewTracker";
 import ProductCard from "../../../components/ProductCard";
+import Reveal from "../../../components/Reveal";
 
 // Prisma must run on Node.js in production, and this page should not be prerendered at build time.
 export const runtime = "nodejs";
@@ -40,9 +41,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
   if (!product) {
     return (
       <div className="mx-auto max-w-3xl px-4 py-12">
-        <div className="rounded-3xl bg-white p-6 border border-pink-100 shadow-soft">
-          <h1 className="text-2xl font-bold">More details on WhatsApp</h1>
-          <p className="text-neutral-600 mt-2">
+        <div className="card-soft p-6">
+          <h1 className="text-2xl font-bold text-neutral-950 dark:text-white">More details on WhatsApp</h1>
+          <p className="mt-2 text-neutral-600 dark:text-neutral-300">
             For more details kindly contact on WhatsApp. We will share sizes,
             colors, and availability quickly.
           </p>
@@ -78,11 +79,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
   }
 
   return (
-    <div className="container-shell py-10 space-y-8">
+    <div className="container-shell space-y-10 py-12">
       <ProductViewTracker slug={product.slug} />
-      <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
+      <Reveal className="grid gap-10 lg:grid-cols-[1.08fr_0.92fr]">
         <div className="space-y-4">
-          <div className="relative h-[420px] rounded-3xl overflow-hidden border border-pink-100 bg-white shadow-soft">
+          <div className="card-soft relative h-[420px] overflow-hidden p-2 sm:h-[540px]">
             <Image
               src={product.images[0]}
               alt={product.name}
@@ -96,17 +97,17 @@ export default async function ProductPage({ params }: ProductPageProps) {
             {product.images.slice(1).map((img) => (
               <div
                 key={img}
-                className="relative h-24 rounded-2xl overflow-hidden border border-pink-100 bg-white"
+                className="relative h-24 overflow-hidden rounded-2xl border border-white/70 bg-white/70 shadow-soft dark:border-white/10 dark:bg-white/10"
               >
                 <Image src={img} alt={product.name} fill className="object-cover" />
               </div>
             ))}
           </div>
         </div>
-        <div className="space-y-5">
+        <div className="space-y-5 lg:pt-8">
           <div>
             <span
-              className={`rounded-full px-3 py-1 text-xs font-semibold ${
+              className={`rounded-full px-3 py-1 text-xs font-bold ${
                 product.inStock
                   ? "bg-green-100 text-green-800"
                   : "bg-neutral-800 text-white"
@@ -114,24 +115,24 @@ export default async function ProductPage({ params }: ProductPageProps) {
             >
               {product.inStock ? "In Stock" : "Out of Stock"}
             </span>
-            <h1 className="text-3xl font-bold mt-3">{product.name}</h1>
-            <p className="text-2xl text-brand-700 font-semibold mt-2">
+            <h1 className="mt-4 text-4xl font-bold tracking-tight text-neutral-950 dark:text-white">{product.name}</h1>
+            <p className="mt-3 text-3xl font-bold text-brand-700 dark:text-brand-200">
               {price}
             </p>
           </div>
-          <p className="text-neutral-600 whitespace-pre-line">
+          <p className="whitespace-pre-line leading-7 text-neutral-600 dark:text-neutral-300">
             {product.description}
           </p>
           <div className="flex gap-2 flex-wrap">
             {product.category && (
               <span className="badge-soft">{product.category}</span>
             )}
-            <span className="rounded-full bg-green-100 text-green-800 px-3 py-1 text-xs font-semibold">
+            <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-bold text-green-800 dark:bg-green-400/10 dark:text-green-200">
               {settings.deliveryText}
             </span>
           </div>
           <div className="card-soft p-4 flex flex-col gap-3">
-            <p className="text-sm text-neutral-600">
+            <p className="text-sm text-neutral-600 dark:text-neutral-300">
               Chat with us to confirm size, color, and availability.
             </p>
             <a href={whatsappLink} className="btn-primary text-center">
@@ -139,11 +140,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
             </a>
           </div>
         </div>
-      </div>
+      </Reveal>
 
       {related.length > 0 && (
-        <section className="space-y-4">
-          <h2 className="text-2xl font-semibold">Related Products</h2>
+        <Reveal className="space-y-4">
+          <h2 className="text-3xl font-bold tracking-tight text-neutral-950 dark:text-white">Related Products</h2>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {related.map((item) => (
               <ProductCard
@@ -160,7 +161,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
               />
             ))}
           </div>
-        </section>
+        </Reveal>
       )}
     </div>
   );

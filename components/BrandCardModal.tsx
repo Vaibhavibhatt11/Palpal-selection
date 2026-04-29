@@ -11,9 +11,9 @@ export default function BrandCardModal() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="card-soft p-4 flex w-full items-center gap-4 hover:border-brand-200 transition"
+        className="card-soft flex w-full items-center gap-4 p-4 text-left hover:-translate-y-1 hover:border-brand-200/70"
       >
-        <div className="relative h-20 w-28 rounded-2xl overflow-hidden border border-pink-100 bg-white">
+        <div className="relative h-20 w-28 overflow-hidden rounded-2xl border border-white/70 bg-white shadow-soft dark:border-white/10 dark:bg-white/90">
           <Image
             src="/brand/logo-card.jpg"
             alt="PALPAL Selection card"
@@ -21,29 +21,29 @@ export default function BrandCardModal() {
             className="object-contain p-2"
           />
         </div>
-        <div className="text-left">
-          <p className="font-semibold text-neutral-900">PALPAL Selection</p>
-          <p className="text-xs text-neutral-500">Tap to view the full card</p>
+        <div>
+          <p className="font-bold text-neutral-950 dark:text-white">PALPAL Selection</p>
+          <p className="text-xs text-neutral-500 dark:text-neutral-400">Tap to view the full card</p>
         </div>
       </button>
 
       {open && (
         <div
-          className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm"
           onClick={() => setOpen(false)}
         >
           <div
-            className="relative w-full max-w-2xl rounded-3xl bg-white p-4 shadow-xl"
+            className="card-soft relative w-full max-w-2xl p-4"
             onClick={(event) => event.stopPropagation()}
           >
             <button
               type="button"
               onClick={() => setOpen(false)}
-              className="absolute right-3 top-3 rounded-full bg-black/80 text-white px-4 py-2 text-sm font-semibold"
+              className="absolute right-3 top-3 z-10 rounded-full bg-black/80 px-4 py-2 text-sm font-bold text-white"
             >
               Close
             </button>
-            <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-white">
+            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-white dark:bg-neutral-950">
               <Image
                 src="/brand/logo-card.jpg"
                 alt="PALPAL Selection card full view"
@@ -54,7 +54,7 @@ export default function BrandCardModal() {
             <button
               type="button"
               onClick={() => setOpen(false)}
-              className="mt-4 w-full rounded-full bg-brand-600 text-white py-3 text-sm font-semibold"
+              className="btn-primary mt-4 w-full py-3"
             >
               Close
             </button>

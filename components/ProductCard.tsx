@@ -34,25 +34,25 @@ export default function ProductCard({
     productUrl
   );
   return (
-    <div className="group rounded-3xl bg-white shadow-soft overflow-hidden border border-pink-100 hover:-translate-y-1 transition-transform">
+    <div className="card-soft group overflow-hidden hover:-translate-y-1 hover:border-brand-200/70">
       <Link href={`/products/${slug}`} className="block">
-        <div className="relative h-56">
+        <div className="relative h-64">
           <Image
             src={images[0]}
             alt={name}
             fill
-            className="object-cover"
+            className="object-cover transition duration-500 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, 33vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent opacity-0 transition duration-300 group-hover:opacity-100" />
           <div className="absolute left-3 top-3 flex gap-2">
             {isNew && (
-              <span className="rounded-full bg-brand-600 text-white text-xs px-2.5 py-1">
+              <span className="rounded-full bg-brand-600 px-2.5 py-1 text-xs font-bold text-white shadow-soft">
                 New
               </span>
             )}
             <span
-              className={`rounded-full text-xs px-2.5 py-1 ${
+              className={`rounded-full px-2.5 py-1 text-xs font-bold shadow-soft ${
                 inStock
                   ? "bg-green-100 text-green-800"
                   : "bg-neutral-800 text-white"
@@ -66,13 +66,13 @@ export default function ProductCard({
       <div className="p-4 space-y-2">
         <Link
           href={`/products/${slug}`}
-          className="font-semibold text-neutral-900 group-hover:text-brand-700 block"
+          className="block font-bold text-neutral-950 transition group-hover:text-brand-700 dark:text-white dark:group-hover:text-brand-200"
         >
           {name}
         </Link>
         <div>
-          <p className="text-sm text-neutral-500">From</p>
-          <p className="text-lg font-semibold text-brand-700">
+          <p className="text-sm text-neutral-500 dark:text-neutral-400">From</p>
+          <p className="text-lg font-bold text-brand-700 dark:text-brand-200">
             {formatCurrency(price)}
           </p>
         </div>
@@ -80,13 +80,13 @@ export default function ProductCard({
       <div className="px-4 pb-4 flex flex-col gap-2">
         <Link
           href={`/products/${slug}`}
-          className="inline-flex w-full items-center justify-center rounded-full border border-brand-200 text-brand-700 px-4 py-2 text-sm font-semibold hover:bg-brand-50 transition"
+          className="btn-secondary w-full px-4 py-2"
         >
           View Details
         </Link>
         <a
           href={whatsappLink}
-          className="inline-flex w-full items-center justify-center rounded-full bg-brand-600 text-white px-4 py-2 text-sm font-semibold shadow-soft hover:bg-brand-700 transition"
+          className="btn-primary w-full px-4 py-2"
         >
           WhatsApp to Order
         </a>

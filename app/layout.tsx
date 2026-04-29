@@ -22,9 +22,26 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const themeScript = `
+    (() => {
+      try {
+        const stored = localStorage.getItem("theme");
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        if ((stored && stored === "dark") || (!stored && prefersDark)) {
+          document.documentElement.classList.add("dark");
+        }
+      } catch {}
+    })();
+  `;
+
   return (
-    <html lang="en" className={`${manrope.variable} ${space.variable}`}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${manrope.variable} ${space.variable}`}
+    >
       <body>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <VisitTracker />
         <Navbar />
         <main className="min-h-screen">{children}</main>

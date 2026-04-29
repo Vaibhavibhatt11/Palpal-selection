@@ -35,37 +35,43 @@ export default function FollowForm() {
   return (
     <form onSubmit={submit} className="space-y-3">
       <div className="space-y-2">
-        <label className="text-sm font-semibold">Full Name</label>
+        <label className="text-sm font-semibold text-neutral-800 dark:text-neutral-200">
+          Full Name
+        </label>
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Your name"
-          className="w-full rounded-xl border border-pink-200 px-3 py-3"
+          className="input-soft"
           required
         />
       </div>
       <div className="space-y-2">
-        <label className="text-sm font-semibold">WhatsApp Number</label>
+        <label className="text-sm font-semibold text-neutral-800 dark:text-neutral-200">
+          WhatsApp Number
+        </label>
         <input
           value={whatsapp}
           onChange={(e) => setWhatsapp(e.target.value)}
           placeholder="e.g. 9033339176"
-          className="w-full rounded-xl border border-pink-200 px-3 py-3"
+          className="input-soft"
           required
         />
       </div>
       <div className="space-y-2">
-        <label className="text-sm font-semibold">Email (optional)</label>
+        <label className="text-sm font-semibold text-neutral-800 dark:text-neutral-200">
+          Email (optional)
+        </label>
         <input
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Email for updates"
-          className="w-full rounded-xl border border-pink-200 px-3 py-3"
+          className="input-soft"
         />
       </div>
       <button
         disabled={status === "loading"}
-        className="w-full rounded-xl bg-brand-600 text-white px-4 py-3 text-base font-semibold"
+        className="btn-primary w-full py-3 text-base"
       >
         {status === "loading" ? "Submitting..." : "Follow for Updates"}
       </button>
