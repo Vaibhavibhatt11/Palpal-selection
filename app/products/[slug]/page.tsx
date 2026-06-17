@@ -13,10 +13,11 @@ export const dynamic = "force-dynamic";
 export const revalidate = 60;
 
 type ProductPageProps = {
-  params: { slug: string };
+  params: Promise<{ slug: string }> | { slug: string };
 };
 
 export default async function ProductPage({ params }: ProductPageProps) {
+  const resolvedParams = await params;
   let product:
     | {
         id: string;
@@ -32,27 +33,33 @@ export default async function ProductPage({ params }: ProductPageProps) {
     | null = null;
   try {
     product = await prisma.product.findUnique({
-      where: { slug: params.slug }
+      where: { slug: resolvedParams.slug }
     });
   } catch {
     product = null;
   }
 
+  const settings = await getSettings();
+  const mapQuery = encodeURIComponent(settings.address);
+  const mapsLink = `https://www.google.com/maps/search/?api=1&query=${mapQuery}`;
+
   if (!product) {
     return (
       <div className="container-shell py-12">
         <div className="border border-[var(--line)] bg-white p-8 dark:bg-[var(--surface)]">
-          <h1 className="section-title">More details on WhatsApp</h1>
+          <h1 className="section-title">Product details unavailable</h1>
           <p className="mt-3 text-neutral-600 dark:text-neutral-400">
-            For more details kindly contact on WhatsApp. We will share sizes,
-            colors, and availability quickly.
+            This product is not available right now. Please open the latest
+            products from the shop page.
           </p>
+          <a href="/products" className="btn-secondary mt-6 inline-flex">
+            View Products
+          </a>
         </div>
       </div>
     );
   }
 
-  const settings = await getSettings();
   const price = formatCurrency(Number(product.price));
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
   const productUrl = `${baseUrl}/products/${product.slug}`;
@@ -140,18 +147,69 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 <span className="badge-soft">{settings.deliveryText}</span>
               </div>
 
-              <div className="hidden border border-[var(--line)] bg-cream-50 p-5 lg:block dark:bg-[var(--surface-muted)]">
+              <div className="border-y border-[var(--line)] py-5">
+                <p className="text-sm font-semibold uppercase tracking-[0.1em] text-neutral-900 dark:text-white">
+                  Store Location
+                </p>
+                <p className="mt-3 text-sm leading-7 text-neutral-600 dark:text-neutral-400">
+                  {settings.address}
+                </p>
+                <a
+                  href={mapsLink}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn-secondary mt-4 inline-flex"
+                >
+                  Open Live Location
+                </a>
+              </div>
+
+              <div className="border border-[var(--line)] bg-cream-50 p-5 dark:bg-[var(--surface-muted)]">
                 <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                  Chat with us to confirm size, color, and availability.
+                  Online orders are confirmed on WhatsApp with product details,
+                  size, color, and availability.
                 </p>
                 <a href={whatsappLink} className="btn-whatsapp mt-4 w-full text-center">
-                  Order on WhatsApp
+                  Order Online on WhatsApp
                 </a>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      <section className="border-t border-[var(--line)] bg-white py-12 dark:bg-[var(--surface)]">
+        <div className="container-shell">
+          <div className="mb-5 flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-brand-700">
+                Visit Store
+              </p>
+              <h2 className="section-title mt-2">PALPAL Selection Location</h2>
+              <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
+                {settings.address}
+              </p>
+            </div>
+            <a
+              href={mapsLink}
+              target="_blank"
+              rel="noreferrer"
+              className="btn-secondary"
+            >
+              Open Live Location
+            </a>
+          </div>
+          <div className="overflow-hidden border border-[var(--line)]">
+            <iframe
+              title="PALPAL Selection Location"
+              src={`https://www.google.com/maps/embed?q=${mapQuery}&z=16&output=embed`}
+              className="h-[320px] w-full bg-white"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </div>
+        </div>
+      </section>
 
       {related.length > 0 && (
         <section className="border-t border-[var(--line)] bg-cream-50 py-12 dark:bg-[var(--surface-muted)]">

@@ -59,13 +59,13 @@ export default function ProductCard({
             href={`/products/${slug}`}
             className="flex-1 rounded-sm bg-white/95 py-2 text-center text-[10px] font-semibold uppercase tracking-wider text-neutral-900 shadow-card"
           >
-            View
+            Details
           </Link>
           <a
             href={whatsappLink}
             className="flex-1 rounded-sm bg-[#25D366] py-2 text-center text-[10px] font-semibold uppercase tracking-wider text-white shadow-card"
           >
-            WhatsApp
+            Order Online
           </a>
         </div>
       </div>

@@ -8,6 +8,8 @@ export const revalidate = 60;
 export default async function AboutPage() {
   const settings = await getSettings();
   const wa = settings.whatsappNumber.replace(/[^\d]/g, "");
+  const mapQuery = encodeURIComponent(settings.address);
+  const mapsLink = `https://www.google.com/maps/search/?api=1&query=${mapQuery}`;
 
   return (
     <div className="container-shell space-y-10 py-10 lg:py-14">
@@ -59,12 +61,20 @@ export default async function AboutPage() {
             Find Us on Map
           </h2>
           <p className="text-sm text-neutral-500">
-            Tuki Gali, Manish Market, Anand
+            {settings.address}
           </p>
+          <a
+            href={mapsLink}
+            target="_blank"
+            rel="noreferrer"
+            className="btn-secondary mt-4 inline-flex"
+          >
+            Open Live Location
+          </a>
         </div>
         <iframe
           title="PALPAL Selection Location"
-          src="https://www.google.com/maps/embed?q=Tuki%20Gali%20Manish%20Market%20Anand&z=15&output=embed"
+          src={`https://www.google.com/maps/embed?q=${mapQuery}&z=16&output=embed`}
           className="h-[320px] w-full bg-white"
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"

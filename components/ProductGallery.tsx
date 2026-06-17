@@ -69,7 +69,7 @@ export function StickyWhatsAppBar({ whatsappLink, price, inStock }: StickyWhatsA
           href={whatsappLink}
           className={`btn-whatsapp shrink-0 px-5 py-3 ${!inStock ? "opacity-60" : ""}`}
         >
-          Order on WhatsApp
+          Order Online
         </a>
       </div>
     </div>
@@ -186,7 +186,7 @@ export function ProductCarousel({ items, whatsappNumber, baseUrl }: CarouselProp
                   )}
                   className="btn-whatsapp flex-1 py-2.5"
                 >
-                  Order
+                  Order Online
                 </a>
               </div>
             </div>
