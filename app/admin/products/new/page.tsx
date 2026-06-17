@@ -50,7 +50,7 @@ export default function NewProductPage() {
     <div className="border border-[var(--line)] bg-white p-6 dark:bg-[var(--surface)]">
       <h1 className="font-display text-3xl font-medium">Add New Product</h1>
       <p className="mt-2 text-sm text-neutral-500">
-        Fill the details and upload at least one image.
+        Fill the details and upload one or more images for the product gallery.
       </p>
       <form onSubmit={handleSubmit} className="mt-6 space-y-5">
         <div className="space-y-2">

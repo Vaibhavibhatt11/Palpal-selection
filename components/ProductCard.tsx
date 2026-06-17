@@ -27,6 +27,8 @@ export default function ProductCard({
 }: ProductCardProps) {
   const isNew = isNewArrival(createdAt);
   const productUrl = `${baseUrl}/products/${slug}`;
+  const primaryImage = images[0];
+  const hoverImage = images[1];
   const whatsappLink = buildWhatsappLink(
     whatsappNumber,
     name,
@@ -38,13 +40,26 @@ export default function ProductCard({
     <article className="group">
       <div className="relative aspect-[3/4] overflow-hidden bg-cream-100">
         <Link href={`/products/${slug}`} className="absolute inset-0 z-0">
-          <Image
-            src={images[0]}
-            alt={name}
-            fill
-            className="object-cover transition duration-500 group-hover:scale-105"
-            sizes="(max-width: 640px) 50vw, 25vw"
-          />
+          {primaryImage && (
+            <Image
+              src={primaryImage}
+              alt={name}
+              fill
+              className={`object-cover transition duration-500 group-hover:scale-105 ${
+                hoverImage ? "group-hover:opacity-0" : ""
+              }`}
+              sizes="(max-width: 640px) 50vw, 25vw"
+            />
+          )}
+          {hoverImage && (
+            <Image
+              src={hoverImage}
+              alt={`${name} alternate view`}
+              fill
+              className="object-cover opacity-0 transition duration-500 group-hover:scale-105 group-hover:opacity-100"
+              sizes="(max-width: 640px) 50vw, 25vw"
+            />
+          )}
         </Link>
         <div className="pointer-events-none absolute left-2 top-2 z-10 flex flex-col gap-1">
           {isNew && <span className="badge-new">New In</span>}
@@ -54,6 +69,11 @@ export default function ProductCard({
             </span>
           )}
         </div>
+        {images.length > 1 && (
+          <span className="pointer-events-none absolute right-2 top-2 z-10 rounded-sm bg-white/90 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-neutral-800 shadow-card">
+            {images.length} Photos
+          </span>
+        )}
         <div className="absolute inset-x-0 bottom-0 z-10 flex translate-y-full gap-1 p-2 transition duration-300 group-hover:translate-y-0">
           <Link
             href={`/products/${slug}`}

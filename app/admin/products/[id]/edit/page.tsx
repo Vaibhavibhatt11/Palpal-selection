@@ -30,7 +30,7 @@ export default async function EditProductPage({ params }: EditPageProps) {
     <div className="border border-[var(--line)] bg-white p-6 dark:bg-[var(--surface)]">
       <h1 className="font-display text-3xl font-medium">Edit Product</h1>
       <p className="mt-2 text-sm text-neutral-500">
-        Update details, images, and stock.
+        Update details, stock, and add more product gallery images.
       </p>
       <div className="mt-6">
         <EditProductForm

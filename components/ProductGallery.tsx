@@ -28,14 +28,24 @@ export default function ProductGallery({ images, name }: ProductGalleryProps) {
           sizes="(max-width: 1024px) 100vw, 50vw"
           priority
         />
+        {images.length > 1 && (
+          <span className="absolute right-3 top-3 rounded-sm bg-white/90 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-neutral-800 shadow-card">
+            {activeIndex + 1} / {images.length}
+          </span>
+        )}
       </div>
       {images.length > 1 && (
-        <div className="flex gap-2 overflow-x-auto scrollbar-hide">
+        <div className="space-y-2">
+          <p className="text-xs uppercase tracking-[0.1em] text-neutral-500">
+            More product photos
+          </p>
+          <div className="flex gap-2 overflow-x-auto scrollbar-hide">
           {images.map((img, i) => (
             <button
               key={img}
               type="button"
               onClick={() => setActiveIndex(i)}
+              aria-label={`Show product photo ${i + 1}`}
               className={`relative h-20 w-16 shrink-0 overflow-hidden border-2 transition ${
                 i === activeIndex
                   ? "border-brand-700"
@@ -45,6 +55,7 @@ export default function ProductGallery({ images, name }: ProductGalleryProps) {
               <Image src={img} alt={`${name} ${i + 1}`} fill className="object-cover" sizes="64px" />
             </button>
           ))}
+          </div>
         </div>
       )}
     </div>

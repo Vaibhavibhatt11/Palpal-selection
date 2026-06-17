@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Product } from "@prisma/client";
 import { prisma } from "../../../lib/db";
 import { formatCurrency, withTimeout } from "../../../lib/utils";
@@ -42,11 +43,24 @@ export default async function AdminProductsPage() {
             key={product.id}
             className="flex flex-col gap-3 border border-[var(--line)] bg-white p-4 sm:flex-row sm:items-center sm:justify-between dark:bg-[var(--surface)]"
           >
-            <div>
-              <p className="font-medium text-neutral-900 dark:text-white">{product.name}</p>
-              <p className="text-sm text-neutral-500">
-                {formatCurrency(Number(product.price))}
-              </p>
+            <div className="flex items-center gap-3">
+              {product.images[0] && (
+                <div className="relative h-16 w-12 shrink-0 overflow-hidden border border-[var(--line)] bg-cream-100">
+                  <Image
+                    src={product.images[0]}
+                    alt={product.name}
+                    fill
+                    className="object-cover"
+                    sizes="48px"
+                  />
+                </div>
+              )}
+              <div>
+                <p className="font-medium text-neutral-900 dark:text-white">{product.name}</p>
+                <p className="text-sm text-neutral-500">
+                  {formatCurrency(Number(product.price))} - {product.images.length} image{product.images.length === 1 ? "" : "s"}
+                </p>
+              </div>
             </div>
             <Link
               href={`/admin/products/${product.id}/edit`}
