@@ -62,8 +62,8 @@ export default async function HomePage() {
     <div>
       <section className="relative overflow-hidden bg-brand-700 text-white">
         <div className="absolute inset-0 bg-[url('/brand/storefront.jpg')] bg-cover bg-center opacity-20" />
-        <div className="container-shell relative grid items-center gap-10 py-16 lg:grid-cols-2 lg:py-24">
-          <div className="space-y-6">
+        <div className="container-shell relative py-16 lg:py-24">
+          <div className="max-w-2xl space-y-6">
             <span className="inline-block border border-white/30 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em]">
               {settings.deliveryText}
             </span>
@@ -88,16 +88,6 @@ export default async function HomePage() {
                 Chat on WhatsApp
               </a>
             </div>
-          </div>
-          <div className="relative hidden min-h-[520px] lg:block">
-            <Image
-              src="/brand/storefront.jpg"
-              alt="PALPAL Selection storefront"
-              fill
-              className="object-contain object-center"
-              sizes="48vw"
-              priority
-            />
           </div>
         </div>
       </section>
