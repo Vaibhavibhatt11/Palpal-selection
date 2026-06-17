@@ -4,12 +4,14 @@ import SettingsForm from "../../../components/SettingsForm";
 export default async function AdminSettingsPage() {
   const settings = await getSettings();
   return (
-    <div className="card-soft p-6">
-      <h1 className="text-2xl font-bold mb-2">Settings</h1>
-      <p className="text-sm text-neutral-500 mb-6">
+    <div className="border border-[var(--line)] bg-white p-6 dark:bg-[var(--surface)]">
+      <h1 className="font-display text-3xl font-medium">Settings</h1>
+      <p className="mt-2 text-sm text-neutral-500">
         Update your shop name, WhatsApp number, address, and delivery text.
       </p>
-      <SettingsForm initial={settings} />
+      <div className="mt-6">
+        <SettingsForm initial={settings} />
+      </div>
     </div>
   );
 }

@@ -32,30 +32,45 @@ export default function AdminLoginForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="w-full max-w-md bg-white rounded-3xl shadow-soft p-6 border border-pink-100"
+      className="w-full max-w-md border border-[var(--line)] bg-white p-7 shadow-card dark:bg-[var(--surface)]"
     >
-      <h1 className="text-2xl font-bold mb-4">Admin Login</h1>
-      <div className="space-y-3">
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Admin email"
-          className="w-full rounded-xl border border-pink-200 px-3 py-2"
-          required
-        />
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
-          className="w-full rounded-xl border border-pink-200 px-3 py-2"
-          required
-        />
+      <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-brand-700">
+        Admin Panel
+      </p>
+      <h1 className="mt-2 font-display text-3xl font-medium text-neutral-900 dark:text-white">
+        Sign In
+      </h1>
+      <p className="mt-1 text-sm text-neutral-500">Use admin credentials to continue.</p>
+
+      <div className="mt-6 space-y-4">
+        <div className="space-y-2">
+          <label className="text-xs font-semibold uppercase tracking-[0.1em] text-neutral-600">
+            Admin Email
+          </label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Admin email"
+            className="input-soft"
+            required
+          />
+        </div>
+        <div className="space-y-2">
+          <label className="text-xs font-semibold uppercase tracking-[0.1em] text-neutral-600">
+            Password
+          </label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            className="input-soft"
+            required
+          />
+        </div>
         {error && <p className="text-sm text-red-500">{error}</p>}
-        <button className="w-full rounded-xl bg-brand-600 text-white px-4 py-2">
-          Sign In
-        </button>
+        <button className="btn-primary w-full">Sign In</button>
       </div>
     </form>
   );

@@ -24,14 +24,14 @@ export default async function AdminProductsPage() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold">Products</h1>
+          <h1 className="font-display text-3xl font-medium">Products</h1>
           <p className="text-sm text-neutral-500">
             Tap any product to edit. Use Add New to upload today's arrivals.
           </p>
         </div>
         <Link
           href="/admin/products/new"
-          className="rounded-full bg-brand-600 text-white px-4 py-2 text-sm font-semibold"
+          className="btn-primary"
         >
           Add New
         </Link>
@@ -40,17 +40,17 @@ export default async function AdminProductsPage() {
         {products.map((product) => (
           <div
             key={product.id}
-            className="bg-white border border-pink-100 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
+            className="flex flex-col gap-3 border border-[var(--line)] bg-white p-4 sm:flex-row sm:items-center sm:justify-between dark:bg-[var(--surface)]"
           >
             <div>
-              <p className="font-semibold">{product.name}</p>
+              <p className="font-medium text-neutral-900 dark:text-white">{product.name}</p>
               <p className="text-sm text-neutral-500">
                 {formatCurrency(Number(product.price))}
               </p>
             </div>
             <Link
               href={`/admin/products/${product.id}/edit`}
-              className="rounded-full border border-brand-200 px-4 py-2 text-sm text-brand-700 text-center"
+              className="inline-flex items-center justify-center border border-brand-700 px-4 py-2 text-xs font-semibold uppercase tracking-[0.1em] text-brand-700 transition hover:bg-brand-700 hover:text-white"
             >
               Edit
             </Link>

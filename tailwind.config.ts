@@ -7,21 +7,46 @@ const config: Config = {
     extend: {
       colors: {
         brand: {
-          50: "#fff1f7",
-          100: "#ffe2f0",
-          200: "#ffc6e1",
-          300: "#ff9fcb",
-          400: "#ff73b2",
-          500: "#ff4d9c",
-          600: "#f02f7f",
-          700: "#c91d64",
-          800: "#a11650",
-          900: "#7f123f"
+          50: "#fdf5f7",
+          100: "#f9e8ed",
+          200: "#f0cdd8",
+          300: "#e2a3b8",
+          400: "#cf6d8f",
+          500: "#b8436a",
+          600: "#9e2d55",
+          700: "#7a1f3d",
+          800: "#651a33",
+          900: "#55182d"
+        },
+        gold: {
+          400: "#c9a227",
+          500: "#b8922a",
+          600: "#9a7a22"
+        },
+        cream: {
+          50: "#fdfcfa",
+          100: "#faf8f5",
+          200: "#f3efe8",
+          300: "#e8e0d4"
         }
       },
+      fontFamily: {
+        display: ["var(--font-display)", "Georgia", "serif"],
+        body: ["var(--font-body)", "system-ui", "sans-serif"]
+      },
       boxShadow: {
-        soft: "0 18px 50px rgba(111, 18, 63, 0.12)",
-        glow: "0 24px 80px rgba(240, 47, 127, 0.22)"
+        soft: "0 4px 24px rgba(122, 31, 61, 0.08)",
+        card: "0 2px 12px rgba(0, 0, 0, 0.06)",
+        lift: "0 8px 30px rgba(122, 31, 61, 0.12)"
+      },
+      animation: {
+        marquee: "marquee 28s linear infinite"
+      },
+      keyframes: {
+        marquee: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-50%)" }
+        }
       }
     }
   },

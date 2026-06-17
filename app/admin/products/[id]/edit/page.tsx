@@ -27,22 +27,24 @@ export default async function EditProductPage({ params }: EditPageProps) {
   }
 
   return (
-    <div className="card-soft p-6">
-      <h1 className="text-2xl font-bold mb-2">Edit Product</h1>
-      <p className="text-sm text-neutral-500 mb-6">
-        Update details, images, and stock. Changes save immediately.
+    <div className="border border-[var(--line)] bg-white p-6 dark:bg-[var(--surface)]">
+      <h1 className="font-display text-3xl font-medium">Edit Product</h1>
+      <p className="mt-2 text-sm text-neutral-500">
+        Update details, images, and stock.
       </p>
-      <EditProductForm
-        id={product.id}
-        initial={{
-          name: product.name,
-          price: Number(product.price),
-          description: product.description,
-          category: product.category,
-          inStock: product.inStock,
-          images: product.images
-        }}
-      />
+      <div className="mt-6">
+        <EditProductForm
+          id={product.id}
+          initial={{
+            name: product.name,
+            price: Number(product.price),
+            description: product.description,
+            category: product.category,
+            inStock: product.inStock,
+            images: product.images
+          }}
+        />
+      </div>
     </div>
   );
 }

@@ -55,37 +55,40 @@ export default async function AdminDashboardPage() {
 
   return (
     <div className="space-y-6">
-      <div className="bg-white rounded-3xl shadow-soft p-6 border border-orange-100">
+      <div className="border border-[var(--line)] bg-white p-6 dark:bg-[var(--surface)]">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <h1 className="text-2xl font-bold">Dashboard</h1>
+          <div>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-brand-700">Admin</p>
+            <h1 className="mt-1 font-display text-3xl font-medium">Dashboard</h1>
+          </div>
           <Link
             href="/"
-            className="rounded-full bg-brand-600 text-white px-4 py-2 text-sm font-semibold"
+            className="btn-secondary"
           >
             Open Website
           </Link>
         </div>
         <div className="mt-4 grid gap-4 sm:grid-cols-4">
-          <div className="rounded-2xl bg-brand-50 p-4">
-            <p className="text-sm text-neutral-600">Total visits (7d)</p>
-            <p className="text-2xl font-semibold">{totalVisits}</p>
+          <div className="border border-[var(--line)] bg-cream-50 p-4 dark:bg-[var(--surface-muted)]">
+            <p className="text-xs uppercase tracking-[0.1em] text-neutral-500">Total visits (7d)</p>
+            <p className="mt-1 text-2xl font-semibold">{totalVisits}</p>
           </div>
-          <div className="rounded-2xl bg-white border border-orange-100 p-4">
-            <p className="text-sm text-neutral-600">Today</p>
-            <p className="text-2xl font-semibold">{todayVisits}</p>
+          <div className="border border-[var(--line)] bg-white p-4 dark:bg-[var(--surface)]">
+            <p className="text-xs uppercase tracking-[0.1em] text-neutral-500">Today</p>
+            <p className="mt-1 text-2xl font-semibold">{todayVisits}</p>
           </div>
-          <div className="rounded-2xl bg-white border border-orange-100 p-4">
-            <p className="text-sm text-neutral-600">Unique (7d)</p>
-            <p className="text-2xl font-semibold">
+          <div className="border border-[var(--line)] bg-white p-4 dark:bg-[var(--surface)]">
+            <p className="text-xs uppercase tracking-[0.1em] text-neutral-500">Unique (7d)</p>
+            <p className="mt-1 text-2xl font-semibold">
               {normalized.reduce((sum, item) => sum + item.uniqueVisits, 0)}
             </p>
           </div>
-          <div className="rounded-2xl bg-white border border-orange-100 p-4">
-            <p className="text-sm text-neutral-600">Followers</p>
-            <p className="text-2xl font-semibold">{followerCount}</p>
+          <div className="border border-[var(--line)] bg-white p-4 dark:bg-[var(--surface)]">
+            <p className="text-xs uppercase tracking-[0.1em] text-neutral-500">Followers</p>
+            <p className="mt-1 text-2xl font-semibold">{followerCount}</p>
             <Link
               href="/admin/followers"
-              className="text-xs text-brand-700 mt-1 inline-block"
+              className="mt-2 inline-block text-xs font-medium text-brand-700"
             >
               View followers
             </Link>
@@ -93,13 +96,13 @@ export default async function AdminDashboardPage() {
         </div>
       </div>
 
-      <div className="bg-white rounded-3xl shadow-soft p-6 border border-orange-100">
-        <h2 className="text-lg font-semibold mb-4">Last 7 Days</h2>
+      <div className="border border-[var(--line)] bg-white p-6 dark:bg-[var(--surface)]">
+        <h2 className="text-sm font-semibold uppercase tracking-[0.12em] text-neutral-700">Last 7 Days</h2>
         <div className="grid grid-cols-7 gap-2 items-end h-40">
           {normalized.map((day) => (
             <div key={day.date} className="text-center">
               <div
-                className="mx-auto w-6 rounded-full bg-brand-600"
+                className="mx-auto w-6 bg-brand-700"
                 style={{
                   height: `${Math.max(
                     20,
@@ -113,9 +116,7 @@ export default async function AdminDashboardPage() {
             </div>
           ))}
         </div>
-        {totalVisits === 0 && (
-          <p className="text-sm text-neutral-500">No visits recorded yet.</p>
-        )}
+        {totalVisits === 0 && <p className="mt-4 text-sm text-neutral-500">No visits recorded yet.</p>}
       </div>
     </div>
   );

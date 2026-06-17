@@ -28,9 +28,9 @@ export default async function AdminFollowersPage() {
   );
 
   return (
-    <div className="card-soft p-6 space-y-4">
+    <div className="space-y-4 border border-[var(--line)] bg-white p-6 dark:bg-[var(--surface)]">
       <div>
-        <h1 className="text-2xl font-bold">Followers</h1>
+        <h1 className="font-display text-3xl font-medium">Followers</h1>
         <p className="text-sm text-neutral-500">
           These customers opted in for daily arrivals. Tap to message updates.
         </p>
@@ -39,10 +39,10 @@ export default async function AdminFollowersPage() {
         {followers.map((follower) => (
           <div
             key={follower.id}
-            className="bg-white border border-pink-100 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
+            className="flex flex-col gap-3 border border-[var(--line)] bg-cream-50 p-4 sm:flex-row sm:items-center sm:justify-between dark:bg-[var(--surface-muted)]"
           >
             <div>
-              <p className="font-semibold">{follower.name}</p>
+              <p className="font-medium text-neutral-900 dark:text-white">{follower.name}</p>
               <p className="text-sm text-neutral-500">{follower.whatsapp}</p>
               {follower.email && (
                 <p className="text-xs text-neutral-400">{follower.email}</p>
@@ -50,7 +50,7 @@ export default async function AdminFollowersPage() {
             </div>
             <a
               href={`https://wa.me/${follower.whatsapp}?text=${updateText}`}
-              className="rounded-full bg-brand-600 text-white px-4 py-2 text-sm font-semibold text-center"
+              className="btn-whatsapp text-center"
             >
               Send WhatsApp Update
             </a>

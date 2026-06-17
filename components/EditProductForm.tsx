@@ -75,66 +75,66 @@ export default function EditProductForm({ id, initial }: ProductFormProps) {
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       <div className="space-y-2">
-        <label className="text-sm font-semibold">Product Name</label>
+        <label className="text-xs font-semibold uppercase tracking-[0.1em] text-neutral-600">Product Name</label>
         <input
           name="name"
           defaultValue={initial.name}
           placeholder="Product name"
-          className="w-full rounded-xl border border-pink-200 px-3 py-3"
+          className="input-soft"
           required
         />
       </div>
       <div className="space-y-2">
-        <label className="text-sm font-semibold">Price (INR)</label>
+        <label className="text-xs font-semibold uppercase tracking-[0.1em] text-neutral-600">Price (INR)</label>
         <input
           name="price"
           type="number"
           defaultValue={initial.price}
           placeholder="Price (INR)"
-          className="w-full rounded-xl border border-pink-200 px-3 py-3"
+          className="input-soft"
           required
         />
       </div>
       <div className="space-y-2">
-        <label className="text-sm font-semibold">Description</label>
+        <label className="text-xs font-semibold uppercase tracking-[0.1em] text-neutral-600">Description</label>
         <textarea
           name="description"
           defaultValue={initial.description}
           placeholder="Description"
-          className="w-full rounded-xl border border-pink-200 px-3 py-3 min-h-[140px]"
+          className="input-soft min-h-[140px]"
         />
       </div>
       <div className="space-y-2">
-        <label className="text-sm font-semibold">Category (optional)</label>
+        <label className="text-xs font-semibold uppercase tracking-[0.1em] text-neutral-600">Category (optional)</label>
         <input
           name="category"
           defaultValue={initial.category || ""}
           placeholder="Category (optional)"
-          className="w-full rounded-xl border border-pink-200 px-3 py-3"
+          className="input-soft"
         />
       </div>
-      <label className="flex items-center gap-3 text-sm font-semibold">
+      <label className="flex items-center gap-3 text-sm font-medium text-neutral-700 dark:text-neutral-300">
         <input
           name="inStock"
           type="checkbox"
           defaultChecked={initial.inStock}
-          className="h-4 w-4"
+          className="h-4 w-4 accent-brand-700"
         />
         In Stock
       </label>
       <ImageUploader value={images} onChange={setImages} />
       {error && <p className="text-sm text-red-500">{error}</p>}
-      <div className="flex gap-3 flex-wrap">
+      <div className="flex flex-wrap gap-3">
         <button
           disabled={loading}
-          className="rounded-xl bg-brand-600 text-white px-4 py-3 text-base font-semibold flex-1"
+          className="btn-primary flex-1"
         >
           {loading ? "Saving..." : "Update Product"}
         </button>
         <button
           type="button"
           onClick={handleDelete}
-          className="rounded-xl border border-red-200 text-red-600 px-4 py-3 text-base font-semibold flex-1"
+          className="inline-flex flex-1 items-center justify-center border border-red-300 px-4 py-3 text-xs font-semibold uppercase tracking-[0.1em] text-red-600 transition hover:bg-red-50"
         >
           Delete
         </button>

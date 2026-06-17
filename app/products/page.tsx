@@ -1,11 +1,12 @@
+import { Suspense } from "react";
 import type { Product } from "@prisma/client";
 import ProductCard from "../../components/ProductCard";
-import Reveal from "../../components/Reveal";
+import ProductFilters from "../../components/ProductFilters";
+import Breadcrumbs from "../../components/Breadcrumbs";
 import { prisma } from "../../lib/db";
 import { getSettings } from "../../lib/settings";
 import { withTimeout } from "../../lib/utils";
 
-// Prisma must run on Node.js in production, and this page should not be prerendered at build time.
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 60;
@@ -33,7 +34,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
   let products: Product[] = [];
-  let categories: Array<{ category: string | null }> = [];
+  let categories: string[] = [];
   try {
     const orderBy =
       sort === "price_asc"
@@ -65,7 +66,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
       []
     );
 
-    categories = await withTimeout(
+    const cats = await withTimeout(
       prisma.product.findMany({
         where: { category: { not: null } },
         select: { category: true },
@@ -73,84 +74,83 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
       }),
       []
     );
+    categories = cats.map((c) => c.category!).filter(Boolean);
   } catch {
-    // If DB is unavailable, render with empty data.
+    // DB unavailable
   }
 
-  return (
-    <div className="container-shell space-y-8 py-12">
-      <Reveal className="card-soft p-6 sm:p-8">
-        <span className="badge-soft">Curated Catalog</span>
-        <h1 className="mt-4 text-4xl font-bold tracking-tight text-neutral-950 dark:text-white">
-          Ladies Collection
-        </h1>
-        <p className="mt-2 text-neutral-600 dark:text-neutral-300">
-          {settings.deliveryText} - PALPAL Selection
-        </p>
-        <form className="mt-4 grid gap-3 md:grid-cols-4">
-          <input
-            name="q"
-            defaultValue={query}
-            placeholder="Search products..."
-            className="input-soft"
-          />
-          <select
-            name="category"
-            defaultValue={category}
-            className="input-soft"
-          >
-            <option value="">All Categories</option>
-            {categories.map((cat) =>
-              cat.category ? (
-                <option key={cat.category} value={cat.category}>
-                  {cat.category}
-                </option>
-              ) : null
-            )}
-          </select>
-          <select
-            name="sort"
-            defaultValue={sort}
-            className="input-soft"
-          >
-            <option value="new">Newest First</option>
-            <option value="price_asc">Price: Low to High</option>
-            <option value="price_desc">Price: High to Low</option>
-          </select>
-          <button className="btn-primary md:col-span-4">
-            Apply Filters
-          </button>
-        </form>
-      </Reveal>
+  const pageTitle = category || "All Products";
 
-      <div className="flex items-center justify-between text-sm font-semibold text-neutral-500 dark:text-neutral-400">
-        <span>{products.length} items</span>
+  return (
+    <div className="container-shell py-8 lg:py-12">
+      <Breadcrumbs
+        items={[
+          { label: "Shop", href: "/products" },
+          ...(category ? [{ label: category }] : [])
+        ]}
+      />
+
+      <div className="mt-4 mb-8">
+        <h1 className="section-title">{pageTitle}</h1>
+        <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
+          {settings.deliveryText} — {settings.shopName}
+        </p>
       </div>
 
-      <Reveal className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {products.map((product) => (
-          <ProductCard
-            key={product.id}
-            id={product.id}
-            name={product.name}
-            slug={product.slug}
-            price={Number(product.price)}
-            images={product.images}
-            createdAt={product.createdAt}
-            inStock={product.inStock}
-            whatsappNumber={settings.whatsappNumber}
-            baseUrl={baseUrl}
+      <div className="grid gap-8 lg:grid-cols-[260px_1fr]">
+        <Suspense fallback={<div className="hidden lg:block h-96 animate-pulse bg-cream-200 rounded-sm" />}>
+          <ProductFilters
+            categories={categories}
+            currentQuery={query}
+            currentCategory={category}
+            currentSort={sort}
+            productCount={products.length}
           />
-        ))}
-      </Reveal>
-      {products.length === 0 && (
-        <Reveal className="card-soft p-8 text-center">
-          <p className="text-lg font-bold text-neutral-950 dark:text-white">No products found</p>
-          <p className="mt-2 text-sm text-neutral-500 dark:text-neutral-400">
-            Try changing filters or check back shortly for new arrivals.
-          </p>
-        </Reveal>
-      )}
+        </Suspense>
+
+        <div>
+          <div className="mb-6 hidden items-center justify-between lg:flex">
+            <p className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
+              {products.length} Products
+            </p>
+            <p className="text-xs uppercase tracking-[0.1em] text-neutral-500">
+              {sort === "price_asc"
+                ? "Price: Low to High"
+                : sort === "price_desc"
+                  ? "Price: High to Low"
+                  : "New Arrivals"}
+            </p>
+          </div>
+
+          {products.length > 0 ? (
+            <div className="product-grid">
+              {products.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  id={product.id}
+                  name={product.name}
+                  slug={product.slug}
+                  price={Number(product.price)}
+                  images={product.images}
+                  createdAt={product.createdAt}
+                  inStock={product.inStock}
+                  whatsappNumber={settings.whatsappNumber}
+                  baseUrl={baseUrl}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="border border-[var(--line)] bg-white p-12 text-center dark:bg-[var(--surface)]">
+              <p className="text-lg font-medium text-neutral-900 dark:text-white">
+                No products found
+              </p>
+              <p className="mt-2 text-sm text-neutral-500">
+                Try changing filters or check back shortly for new arrivals.
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

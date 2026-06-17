@@ -9,8 +9,8 @@ export default async function AdminLayout({
 }) {
   const session = await getServerSession(authOptions);
   return (
-    <div className="min-h-screen bg-[#fff7f0]">
-      <div className="mx-auto max-w-6xl px-4 py-6 space-y-6">
+    <div className="min-h-screen bg-[var(--page-bg)]">
+      <div className="mx-auto max-w-6xl space-y-6 px-4 py-6">
         {session?.user?.email ? <AdminNav /> : null}
         {children}
       </div>

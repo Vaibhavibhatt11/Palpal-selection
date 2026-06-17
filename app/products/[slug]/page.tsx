@@ -1,14 +1,13 @@
 import type { Product } from "@prisma/client";
-import Image from "next/image";
 import { prisma } from "../../../lib/db";
 import { formatCurrency, withTimeout } from "../../../lib/utils";
 import { buildWhatsappLink } from "../../../lib/whatsapp";
 import { getSettings } from "../../../lib/settings";
 import ProductViewTracker from "../../../components/ProductViewTracker";
 import ProductCard from "../../../components/ProductCard";
-import Reveal from "../../../components/Reveal";
+import ProductGallery, { StickyWhatsAppBar } from "../../../components/ProductGallery";
+import Breadcrumbs from "../../../components/Breadcrumbs";
 
-// Prisma must run on Node.js in production, and this page should not be prerendered at build time.
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 60;
@@ -38,12 +37,13 @@ export default async function ProductPage({ params }: ProductPageProps) {
   } catch {
     product = null;
   }
+
   if (!product) {
     return (
-      <div className="mx-auto max-w-3xl px-4 py-12">
-        <div className="card-soft p-6">
-          <h1 className="text-2xl font-bold text-neutral-950 dark:text-white">More details on WhatsApp</h1>
-          <p className="mt-2 text-neutral-600 dark:text-neutral-300">
+      <div className="container-shell py-12">
+        <div className="border border-[var(--line)] bg-white p-8 dark:bg-[var(--surface)]">
+          <h1 className="section-title">More details on WhatsApp</h1>
+          <p className="mt-3 text-neutral-600 dark:text-neutral-400">
             For more details kindly contact on WhatsApp. We will share sizes,
             colors, and availability quickly.
           </p>
@@ -51,6 +51,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
       </div>
     );
   }
+
   const settings = await getSettings();
   const price = formatCurrency(Number(product.price));
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
@@ -75,94 +76,112 @@ export default async function ProductPage({ params }: ProductPageProps) {
       []
     );
   } catch {
-    // Ignore related on DB issues
+    // ignore
   }
 
   return (
-    <div className="container-shell space-y-10 py-12">
+    <div className="pb-24 lg:pb-12">
       <ProductViewTracker slug={product.slug} />
-      <Reveal className="grid gap-10 lg:grid-cols-[1.08fr_0.92fr]">
-        <div className="space-y-4">
-          <div className="card-soft relative h-[420px] overflow-hidden p-2 sm:h-[540px]">
-            <Image
-              src={product.images[0]}
-              alt={product.name}
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 50vw"
-              priority
-            />
-          </div>
-          <div className="grid grid-cols-3 gap-3">
-            {product.images.slice(1).map((img) => (
-              <div
-                key={img}
-                className="relative h-24 overflow-hidden rounded-2xl border border-white/70 bg-white/70 shadow-soft dark:border-white/10 dark:bg-white/10"
-              >
-                <Image src={img} alt={product.name} fill className="object-cover" />
+      <div className="container-shell py-8">
+        <Breadcrumbs
+          items={[
+            { label: "Shop", href: "/products" },
+            ...(product.category
+              ? [
+                  {
+                    label: product.category,
+                    href: `/products?category=${encodeURIComponent(product.category)}`
+                  }
+                ]
+              : []),
+            { label: product.name }
+          ]}
+        />
+
+        <div className="mt-6 grid gap-10 lg:grid-cols-2 lg:gap-16">
+          <ProductGallery images={product.images} name={product.name} />
+
+          <div className="lg:sticky lg:top-28 lg:self-start">
+            <div className="space-y-5">
+              {product.category && (
+                <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-brand-700">
+                  {product.category}
+                </p>
+              )}
+              <h1 className="font-display text-2xl font-medium uppercase tracking-wide text-neutral-900 sm:text-3xl dark:text-white">
+                {product.name}
+              </h1>
+
+              <div className="flex items-center gap-3">
+                <p className="text-2xl font-semibold text-brand-700 dark:text-brand-300">
+                  {price}
+                </p>
+                <span
+                  className={`rounded-sm px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider ${
+                    product.inStock
+                      ? "bg-green-100 text-green-800"
+                      : "bg-neutral-200 text-neutral-600"
+                  }`}
+                >
+                  {product.inStock ? "In Stock" : "Out of Stock"}
+                </span>
               </div>
-            ))}
+
+              <div className="border-t border-[var(--line)] pt-5">
+                <p className="text-sm font-semibold uppercase tracking-[0.1em] text-neutral-900 dark:text-white">
+                  Description
+                </p>
+                <p className="mt-3 whitespace-pre-line text-sm leading-7 text-neutral-600 dark:text-neutral-400">
+                  {product.description}
+                </p>
+              </div>
+
+              <div className="flex flex-wrap gap-2">
+                <span className="badge-soft">{settings.deliveryText}</span>
+              </div>
+
+              <div className="hidden border border-[var(--line)] bg-cream-50 p-5 lg:block dark:bg-[var(--surface-muted)]">
+                <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                  Chat with us to confirm size, color, and availability.
+                </p>
+                <a href={whatsappLink} className="btn-whatsapp mt-4 w-full text-center">
+                  Order on WhatsApp
+                </a>
+              </div>
+            </div>
           </div>
         </div>
-        <div className="space-y-5 lg:pt-8">
-          <div>
-            <span
-              className={`rounded-full px-3 py-1 text-xs font-bold ${
-                product.inStock
-                  ? "bg-green-100 text-green-800"
-                  : "bg-neutral-800 text-white"
-              }`}
-            >
-              {product.inStock ? "In Stock" : "Out of Stock"}
-            </span>
-            <h1 className="mt-4 text-4xl font-bold tracking-tight text-neutral-950 dark:text-white">{product.name}</h1>
-            <p className="mt-3 text-3xl font-bold text-brand-700 dark:text-brand-200">
-              {price}
-            </p>
-          </div>
-          <p className="whitespace-pre-line leading-7 text-neutral-600 dark:text-neutral-300">
-            {product.description}
-          </p>
-          <div className="flex gap-2 flex-wrap">
-            {product.category && (
-              <span className="badge-soft">{product.category}</span>
-            )}
-            <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-bold text-green-800 dark:bg-green-400/10 dark:text-green-200">
-              {settings.deliveryText}
-            </span>
-          </div>
-          <div className="card-soft p-4 flex flex-col gap-3">
-            <p className="text-sm text-neutral-600 dark:text-neutral-300">
-              Chat with us to confirm size, color, and availability.
-            </p>
-            <a href={whatsappLink} className="btn-primary text-center">
-              Chat on WhatsApp
-            </a>
-          </div>
-        </div>
-      </Reveal>
+      </div>
 
       {related.length > 0 && (
-        <Reveal className="space-y-4">
-          <h2 className="text-3xl font-bold tracking-tight text-neutral-950 dark:text-white">Related Products</h2>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {related.map((item) => (
-              <ProductCard
-                key={item.id}
-                id={item.id}
-                name={item.name}
-                slug={item.slug}
-                price={Number(item.price)}
-                images={item.images}
-                createdAt={item.createdAt}
-                inStock={item.inStock}
-                whatsappNumber={settings.whatsappNumber}
-                baseUrl={baseUrl}
-              />
-            ))}
+        <section className="border-t border-[var(--line)] bg-cream-50 py-12 dark:bg-[var(--surface-muted)]">
+          <div className="container-shell">
+            <h2 className="section-title mb-8">You May Also Like</h2>
+            <div className="product-grid">
+              {related.map((item) => (
+                <ProductCard
+                  key={item.id}
+                  id={item.id}
+                  name={item.name}
+                  slug={item.slug}
+                  price={Number(item.price)}
+                  images={item.images}
+                  createdAt={item.createdAt}
+                  inStock={item.inStock}
+                  whatsappNumber={settings.whatsappNumber}
+                  baseUrl={baseUrl}
+                />
+              ))}
+            </div>
           </div>
-        </Reveal>
+        </section>
       )}
+
+      <StickyWhatsAppBar
+        whatsappLink={whatsappLink}
+        price={price}
+        inStock={product.inStock}
+      />
     </div>
   );
 }

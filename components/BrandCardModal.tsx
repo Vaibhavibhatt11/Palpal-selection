@@ -11,9 +11,9 @@ export default function BrandCardModal() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="card-soft flex w-full items-center gap-4 p-4 text-left hover:-translate-y-1 hover:border-brand-200/70"
+        className="absolute -bottom-6 left-4 right-4 flex items-center gap-4 border border-[var(--line)] bg-white p-4 text-left shadow-lift transition hover:shadow-card dark:bg-[var(--surface)]"
       >
-        <div className="relative h-20 w-28 overflow-hidden rounded-2xl border border-white/70 bg-white shadow-soft dark:border-white/10 dark:bg-white/90">
+        <div className="relative h-16 w-24 overflow-hidden rounded-sm border border-[var(--line)] bg-white">
           <Image
             src="/brand/logo-card.jpg"
             alt="PALPAL Selection card"
@@ -22,8 +22,8 @@ export default function BrandCardModal() {
           />
         </div>
         <div>
-          <p className="font-bold text-neutral-950 dark:text-white">PALPAL Selection</p>
-          <p className="text-xs text-neutral-500 dark:text-neutral-400">Tap to view the full card</p>
+          <p className="text-sm font-semibold text-brand-700">PALPAL Selection</p>
+          <p className="text-xs text-neutral-500">Tap to view card</p>
         </div>
       </button>
 

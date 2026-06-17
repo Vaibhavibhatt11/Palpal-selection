@@ -1,19 +1,27 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Manrope, Space_Grotesk } from "next/font/google";
+import { Cormorant_Garamond, Lato } from "next/font/google";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import VisitTracker from "../components/VisitTracker";
 import { getSettings } from "../lib/settings";
 
-const manrope = Manrope({ subsets: ["latin"], variable: "--font-body" });
-const space = Space_Grotesk({ subsets: ["latin"], variable: "--font-heading" });
+const display = Cormorant_Garamond({
+  subsets: ["latin"],
+  variable: "--font-display",
+  weight: ["400", "500", "600", "700"]
+});
+const body = Lato({
+  subsets: ["latin"],
+  variable: "--font-body",
+  weight: ["300", "400", "700"]
+});
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSettings();
   return {
     title: settings.shopName,
-    description: "Local shop product catalog"
+    description: "Premium ladieswear — sarees, kurtis, salwar suits & more. Order on WhatsApp."
   };
 }
 
@@ -22,26 +30,9 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const themeScript = `
-    (() => {
-      try {
-        const stored = localStorage.getItem("theme");
-        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-        if ((stored && stored === "dark") || (!stored && prefersDark)) {
-          document.documentElement.classList.add("dark");
-        }
-      } catch {}
-    })();
-  `;
-
   return (
-    <html
-      lang="en"
-      suppressHydrationWarning
-      className={`${manrope.variable} ${space.variable}`}
-    >
+    <html lang="en" className={`${display.variable} ${body.variable}`}>
       <body>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <VisitTracker />
         <Navbar />
         <main className="min-h-screen">{children}</main>

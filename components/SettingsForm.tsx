@@ -52,62 +52,62 @@ export default function SettingsForm({ initial }: { initial: Settings }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       <div className="space-y-2">
-        <label className="text-sm font-semibold">Shop Name</label>
+        <label className="text-xs font-semibold uppercase tracking-[0.1em] text-neutral-600">Shop Name</label>
         <input
           name="shopName"
           defaultValue={initial.shopName}
           placeholder="Shop name"
-          className="w-full rounded-xl border border-pink-200 px-3 py-3"
+          className="input-soft"
         />
       </div>
       <div className="space-y-2">
-        <label className="text-sm font-semibold">WhatsApp Number</label>
+        <label className="text-xs font-semibold uppercase tracking-[0.1em] text-neutral-600">WhatsApp Number</label>
         <input
           name="whatsappNumber"
           defaultValue={initial.whatsappNumber}
           placeholder="WhatsApp number"
-          className="w-full rounded-xl border border-pink-200 px-3 py-3"
+          className="input-soft"
         />
       </div>
       <div className="space-y-2">
-        <label className="text-sm font-semibold">Address</label>
+        <label className="text-xs font-semibold uppercase tracking-[0.1em] text-neutral-600">Address</label>
         <input
           name="address"
           defaultValue={initial.address}
           placeholder="Address"
-          className="w-full rounded-xl border border-pink-200 px-3 py-3"
+          className="input-soft"
         />
       </div>
       <div className="space-y-2">
-        <label className="text-sm font-semibold">Hours</label>
+        <label className="text-xs font-semibold uppercase tracking-[0.1em] text-neutral-600">Hours</label>
         <input
           name="hours"
           defaultValue={initial.hours}
           placeholder="Hours"
-          className="w-full rounded-xl border border-pink-200 px-3 py-3"
+          className="input-soft"
         />
       </div>
       <div className="space-y-2">
-        <label className="text-sm font-semibold">Delivery Text</label>
+        <label className="text-xs font-semibold uppercase tracking-[0.1em] text-neutral-600">Delivery Text</label>
         <input
           name="deliveryText"
           defaultValue={initial.deliveryText}
           placeholder="Delivery text"
-          className="w-full rounded-xl border border-pink-200 px-3 py-3"
+          className="input-soft"
         />
       </div>
       <div className="space-y-2">
-        <label className="text-sm font-semibold">Announcement (optional)</label>
+        <label className="text-xs font-semibold uppercase tracking-[0.1em] text-neutral-600">Announcement (optional)</label>
         <input
           name="announcementText"
           defaultValue={initial.announcementText || ""}
           placeholder="Announcement (optional)"
-          className="w-full rounded-xl border border-pink-200 px-3 py-3"
+          className="input-soft"
         />
       </div>
       <button
         disabled={saving}
-        className="w-full rounded-xl bg-brand-600 text-white px-4 py-3 text-base font-semibold"
+        className="btn-primary w-full"
       >
         {saving ? "Saving..." : "Save Settings"}
       </button>

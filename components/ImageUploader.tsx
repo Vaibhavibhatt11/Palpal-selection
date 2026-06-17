@@ -44,8 +44,8 @@ export default function ImageUploader({ value, onChange }: ImageUploaderProps) {
   };
 
   return (
-    <div className="space-y-3">
-      <label className="block text-sm font-semibold text-neutral-700">
+    <div className="space-y-3 border border-[var(--line)] bg-cream-50 p-4 dark:bg-[var(--surface-muted)]">
+      <label className="block text-xs font-semibold uppercase tracking-[0.1em] text-neutral-700 dark:text-neutral-300">
         Product Images
       </label>
       <p className="text-xs text-neutral-500">
@@ -56,23 +56,23 @@ export default function ImageUploader({ value, onChange }: ImageUploaderProps) {
         accept="image/*"
         multiple
         onChange={(e) => handleFiles(e.target.files)}
-        className="block w-full rounded-xl border border-pink-200 bg-white px-3 py-3"
+        className="input-soft"
       />
       {uploading && <p className="text-sm text-neutral-500">Uploading...</p>}
       {error && <p className="text-sm text-red-500">{error}</p>}
-      <div className="flex gap-3 flex-wrap">
+      <div className="flex flex-wrap gap-3">
         {value.map((url) => (
           <div
             key={url}
-            className="relative h-20 w-20 rounded-xl overflow-hidden border border-pink-100"
+            className="relative h-20 w-20 overflow-hidden border border-[var(--line)]"
           >
             <Image src={url} alt="Uploaded" fill className="object-cover" />
             <button
               type="button"
               onClick={() => removeImage(url)}
-              className="absolute top-1 right-1 bg-black/60 text-white text-xs px-1 rounded"
+              className="absolute right-1 top-1 bg-black/70 px-1.5 py-0.5 text-[10px] font-semibold text-white"
             >
-              x
+              X
             </button>
           </div>
         ))}

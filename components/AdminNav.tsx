@@ -8,25 +8,25 @@ const links = [
 
 export default function AdminNav() {
   return (
-    <nav className="flex flex-wrap items-center gap-3 text-sm font-medium">
+    <nav className="flex flex-wrap items-center gap-2 border border-[var(--line)] bg-white p-3 dark:bg-[var(--surface)]">
       {links.map((link) => (
         <Link
           key={link.href}
           href={link.href}
-          className="rounded-full bg-white px-3 py-1.5 shadow-soft border border-orange-100 hover:text-brand-700"
+          className="inline-flex items-center border border-[var(--line)] px-3 py-2 text-xs font-semibold uppercase tracking-[0.1em] text-neutral-700 transition hover:border-brand-700 hover:text-brand-700 dark:text-neutral-300"
         >
           {link.label}
         </Link>
       ))}
       <Link
         href="/admin/settings"
-        className="rounded-full border border-brand-200 px-3 py-1.5 text-brand-700 bg-white"
+        className="inline-flex items-center border border-brand-700 px-3 py-2 text-xs font-semibold uppercase tracking-[0.1em] text-brand-700 transition hover:bg-brand-700 hover:text-white"
       >
         Settings
       </Link>
       <Link
         href="/"
-        className="rounded-full bg-brand-600 text-white px-3 py-1.5 shadow-soft"
+        className="ml-auto inline-flex items-center bg-brand-700 px-3 py-2 text-xs font-semibold uppercase tracking-[0.1em] text-white transition hover:bg-brand-800"
       >
         Open Website
       </Link>

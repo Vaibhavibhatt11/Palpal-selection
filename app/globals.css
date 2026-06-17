@@ -4,26 +4,26 @@
 
 :root {
   color-scheme: light;
-  --page-bg: #fff8fb;
-  --page-text: #171216;
-  --muted: #6f6670;
-  --surface: rgba(255, 255, 255, 0.76);
-  --surface-strong: rgba(255, 255, 255, 0.92);
-  --line: rgba(240, 47, 127, 0.16);
-  --hero-from: #fff8fb;
-  --hero-to: #ffe8f3;
+  --page-bg: #faf8f5;
+  --page-text: #1a1418;
+  --muted: #6b6368;
+  --surface: #ffffff;
+  --surface-muted: #f3efe8;
+  --line: #e8e0d4;
+  --accent: #7a1f3d;
+  --accent-hover: #651a33;
 }
 
 .dark {
   color-scheme: dark;
-  --page-bg: #100a0f;
-  --page-text: #fff8fb;
-  --muted: #bcb1ba;
-  --surface: rgba(30, 22, 29, 0.7);
-  --surface-strong: rgba(26, 19, 25, 0.92);
-  --line: rgba(255, 255, 255, 0.1);
-  --hero-from: #140b12;
-  --hero-to: #28111d;
+  --page-bg: #141012;
+  --page-text: #faf8f5;
+  --muted: #b5adb2;
+  --surface: #1e181c;
+  --surface-muted: #2a2228;
+  --line: #3d3539;
+  --accent: #e2a3b8;
+  --accent-hover: #f0cdd8;
 }
 
 * {
@@ -35,11 +35,8 @@ html {
 }
 
 body {
-  @apply overflow-x-hidden antialiased transition-colors duration-500;
-  background:
-    radial-gradient(circle at 12% 8%, rgba(255, 77, 156, 0.18), transparent 30rem),
-    radial-gradient(circle at 92% 18%, rgba(255, 185, 117, 0.16), transparent 28rem),
-    linear-gradient(180deg, var(--page-bg), var(--page-bg));
+  @apply overflow-x-hidden antialiased;
+  background-color: var(--page-bg);
   color: var(--page-text);
   font-family: var(--font-body), system-ui, sans-serif;
 }
@@ -48,75 +45,62 @@ h1,
 h2,
 h3,
 h4 {
-  font-family: var(--font-heading), system-ui, sans-serif;
-}
-
-.hero-grid {
-  background-image:
-    radial-gradient(circle at 76% 14%, rgba(255, 255, 255, 0.75), transparent 16rem),
-    radial-gradient(circle at top left, rgba(255, 77, 156, 0.25), transparent 38rem),
-    radial-gradient(circle at 18% 88%, rgba(255, 170, 116, 0.2), transparent 28rem),
-    linear-gradient(135deg, var(--hero-from), var(--hero-to));
-}
-
-.section-wave {
-  background-image:
-    radial-gradient(circle at top right, rgba(255, 115, 178, 0.24), transparent 18rem),
-    linear-gradient(120deg, rgba(255, 255, 255, 0.74), rgba(255, 229, 242, 0.58));
-}
-
-.dark .section-wave {
-  background-image:
-    radial-gradient(circle at top right, rgba(240, 47, 127, 0.22), transparent 18rem),
-    linear-gradient(120deg, rgba(30, 22, 29, 0.78), rgba(43, 22, 34, 0.72));
+  font-family: var(--font-display), Georgia, serif;
 }
 
 @layer components {
   .container-shell {
     @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
   }
+
   .btn-primary {
-    @apply inline-flex items-center justify-center rounded-full bg-gradient-to-r from-brand-600 via-brand-500 to-rose-400 px-6 py-3 text-sm font-extrabold text-white shadow-glow transition duration-300 hover:-translate-y-0.5 hover:shadow-soft focus:outline-none focus:ring-4 focus:ring-brand-300/40 disabled:pointer-events-none disabled:opacity-60;
+    @apply inline-flex items-center justify-center gap-2 rounded-sm bg-brand-700 px-6 py-3 text-xs font-semibold uppercase tracking-[0.12em] text-white transition duration-200 hover:bg-brand-800 focus:outline-none focus:ring-2 focus:ring-brand-500/40 disabled:pointer-events-none disabled:opacity-60;
   }
+
   .btn-secondary {
-    @apply inline-flex items-center justify-center rounded-full border border-white/70 bg-white/70 px-6 py-3 text-sm font-extrabold text-brand-700 shadow-soft backdrop-blur-xl transition duration-300 hover:-translate-y-0.5 hover:border-brand-200 hover:bg-white focus:outline-none focus:ring-4 focus:ring-brand-200/50 dark:border-white/10 dark:bg-white/10 dark:text-brand-200 dark:hover:bg-white/15;
+    @apply inline-flex items-center justify-center gap-2 rounded-sm border border-brand-700 bg-transparent px-6 py-3 text-xs font-semibold uppercase tracking-[0.12em] text-brand-700 transition duration-200 hover:bg-brand-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-brand-500/30 dark:border-brand-400 dark:text-brand-300 dark:hover:bg-brand-700 dark:hover:text-white;
   }
+
+  .btn-whatsapp {
+    @apply inline-flex items-center justify-center gap-2 rounded-sm bg-[#25D366] px-6 py-3 text-xs font-semibold uppercase tracking-[0.12em] text-white transition duration-200 hover:bg-[#1ebe5d] focus:outline-none focus:ring-2 focus:ring-[#25D366]/40;
+  }
+
   .card-soft {
-    @apply rounded-[1.75rem] border shadow-soft backdrop-blur-xl transition duration-300;
-    background: var(--surface);
+    @apply rounded-sm border bg-white shadow-card transition duration-200 dark:bg-[var(--surface)];
     border-color: var(--line);
   }
-  .badge-soft {
-    @apply inline-flex w-fit items-center rounded-full border border-brand-200/60 bg-white/70 px-3 py-1 text-xs font-extrabold text-brand-700 shadow-soft backdrop-blur-xl dark:border-white/10 dark:bg-white/10 dark:text-brand-200;
-  }
-  .nav-link {
-    @apply rounded-full px-4 py-2 text-neutral-700 transition duration-300 hover:bg-white hover:text-brand-700 dark:text-neutral-200 dark:hover:bg-white/10 dark:hover:text-brand-200;
-  }
-  .input-soft {
-    @apply w-full rounded-2xl border border-brand-200/50 bg-white/80 px-4 py-3 text-sm text-neutral-900 outline-none transition placeholder:text-neutral-400 focus:border-brand-400 focus:ring-4 focus:ring-brand-200/40 dark:border-white/10 dark:bg-white/10 dark:text-white dark:placeholder:text-neutral-500;
-  }
-  .theme-toggle {
-    @apply relative h-10 w-[4.25rem] rounded-full border border-white/70 bg-white/80 shadow-soft backdrop-blur-xl transition dark:border-white/10 dark:bg-white/10;
-  }
-  .theme-toggle::before {
-    @apply absolute left-3 top-1/2 -translate-y-1/2 text-xs;
-    content: "L";
-  }
-  .theme-toggle::after {
-    @apply absolute right-3 top-1/2 -translate-y-1/2 text-xs;
-    content: "D";
-  }
-  .theme-toggle__thumb {
-    @apply absolute left-1 top-1 h-8 w-8 rounded-full bg-gradient-to-br from-brand-500 to-rose-300 shadow-soft transition duration-300;
-  }
-  .dark .theme-toggle__thumb {
-    transform: translateX(1.75rem);
-  }
-}
 
-.fade-edges {
-  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  .badge-soft {
+    @apply inline-flex w-fit items-center rounded-sm border border-brand-200 bg-brand-50 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-brand-700 dark:border-brand-700/40 dark:bg-brand-900/30 dark:text-brand-300;
+  }
+
+  .badge-new {
+    @apply inline-flex items-center rounded-sm bg-brand-700 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white;
+  }
+
+  .nav-link {
+    @apply px-3 py-2 text-xs font-medium uppercase tracking-[0.1em] text-neutral-700 transition hover:text-brand-700 dark:text-neutral-300 dark:hover:text-brand-300;
+  }
+
+  .input-soft {
+    @apply w-full rounded-sm border border-[var(--line)] bg-white px-4 py-2.5 text-sm text-neutral-900 outline-none transition placeholder:text-neutral-400 focus:border-brand-500 focus:ring-1 focus:ring-brand-500/30 dark:bg-[var(--surface)] dark:text-white dark:placeholder:text-neutral-500;
+  }
+
+  .filter-chip {
+    @apply inline-flex cursor-pointer items-center rounded-sm border border-[var(--line)] px-3 py-1.5 text-xs font-medium text-neutral-700 transition hover:border-brand-500 hover:text-brand-700 dark:text-neutral-300;
+  }
+
+  .filter-chip-active {
+    @apply border-brand-700 bg-brand-700 text-white hover:border-brand-800 hover:text-white dark:border-brand-600 dark:bg-brand-600;
+  }
+
+  .section-title {
+    @apply font-display text-2xl font-medium tracking-tight text-neutral-900 sm:text-3xl dark:text-white;
+  }
+
+  .product-grid {
+    @apply grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4;
+  }
 }
 
 .scrollbar-hide::-webkit-scrollbar {
@@ -128,38 +112,9 @@ h4 {
   scrollbar-width: none;
 }
 
-.carousel-track {
-  animation: carousel-marquee 8s linear infinite;
-  will-change: transform;
-}
-
-.carousel-shell:hover .carousel-track {
-  animation-play-state: paused;
-}
-
-@media (min-width: 640px) {
-  .carousel-track {
-    animation-duration: 13s;
-  }
-}
-
-@media (min-width: 1024px) {
-  .carousel-track {
-    animation-duration: 18s;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .carousel-track {
-    animation: none;
-  }
-}
-
-@keyframes carousel-marquee {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    transform: translate3d(calc(-50% - 0.5rem), 0, 0);
-  }
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
