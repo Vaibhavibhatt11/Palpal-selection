@@ -89,17 +89,15 @@ export default async function HomePage() {
               </a>
             </div>
           </div>
-          <div className="hidden lg:block">
-            <div className="relative aspect-[4/5] overflow-hidden border border-white/20 shadow-lift">
-              <Image
-                src="/brand/storefront.jpg"
-                alt="PALPAL Selection storefront"
-                fill
-                className="object-cover"
-                sizes="45vw"
-                priority
-              />
-            </div>
+          <div className="relative hidden min-h-[520px] lg:block">
+            <Image
+              src="/brand/storefront.jpg"
+              alt="PALPAL Selection storefront"
+              fill
+              className="object-contain object-center"
+              sizes="48vw"
+              priority
+            />
           </div>
         </div>
       </section>
